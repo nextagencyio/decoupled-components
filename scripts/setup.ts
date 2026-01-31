@@ -135,7 +135,7 @@ async function main() {
   console.log(`
 ${COLORS.magenta}╔════════════════════════════════════════════════════════╗
 ║                                                        ║
-║      ${COLORS.bright}Decoupled Components - Interactive Setup${COLORS.reset}${COLORS.magenta}        ║
+║     ${COLORS.bright}Decoupled Components - Interactive Setup${COLORS.reset}${COLORS.magenta}         ║
 ║                                                        ║
 ║   Component showcase with 10 paragraph types:          ║
 ║   Hero, Cards, Sidebyside, Pricing, Testimonials,      ║
