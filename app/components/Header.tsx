@@ -42,10 +42,10 @@ export default function Header() {
 
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center gap-4">
-            <Button variant="ghost" href="/login">
+            <Button variant="ghost" href="#">
               Log in
             </Button>
-            <Button variant="primary" href="/signup">
+            <Button variant="primary" href="#">
               Get Started
             </Button>
           </div>
@@ -80,10 +80,10 @@ export default function Header() {
                 </Link>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-gray-100">
-                <Button variant="ghost" href="/login" className="justify-center">
+                <Button variant="ghost" href="#" className="justify-center">
                   Log in
                 </Button>
-                <Button variant="primary" href="/signup" className="justify-center">
+                <Button variant="primary" href="#" className="justify-center">
                   Get Started
                 </Button>
               </div>
