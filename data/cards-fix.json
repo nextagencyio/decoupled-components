@@ -1,0 +1,82 @@
+{
+  "model": [],
+  "content": [
+    {
+      "id": "feature-card-1",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "Zap",
+        "title": "Lightning Fast",
+        "description": "Optimized for speed with instant page loads and real-time updates. Build experiences your users will love.",
+        "link_text": "Learn more",
+        "link_url": "/features/speed"
+      }
+    },
+    {
+      "id": "feature-card-2",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "Shield",
+        "title": "Enterprise Security",
+        "description": "SOC2 compliant with end-to-end encryption. Your data is protected with industry-leading security measures.",
+        "link_text": "Learn more",
+        "link_url": "/features/security"
+      }
+    },
+    {
+      "id": "feature-card-3",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "Blocks",
+        "title": "Modular Components",
+        "description": "Pre-built, customizable components that work together seamlessly. Mix and match to create your perfect stack.",
+        "link_text": "Learn more",
+        "link_url": "/features/components"
+      }
+    },
+    {
+      "id": "team-card-1",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "User",
+        "title": "Alex Turner",
+        "description": "CEO & Co-founder. Previously engineering lead at Stripe.",
+        "link_text": "LinkedIn",
+        "link_url": "#"
+      }
+    },
+    {
+      "id": "team-card-2",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "User",
+        "title": "Jordan Lee",
+        "description": "CTO & Co-founder. Former senior engineer at Google Cloud.",
+        "link_text": "LinkedIn",
+        "link_url": "#"
+      }
+    },
+    {
+      "id": "team-card-3",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "User",
+        "title": "Casey Morgan",
+        "description": "Head of Design. Led design teams at Figma and Notion.",
+        "link_text": "LinkedIn",
+        "link_url": "#"
+      }
+    },
+    {
+      "id": "team-card-4",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "User",
+        "title": "Riley Chen",
+        "description": "Head of Engineering. Built infrastructure at Netflix.",
+        "link_text": "LinkedIn",
+        "link_url": "#"
+      }
+    }
+  ]
+}

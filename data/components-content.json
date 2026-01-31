@@ -1,0 +1,698 @@
+{
+  "model": [
+    {
+      "bundle": "landing_page",
+      "label": "Landing Page",
+      "body": false,
+      "fields": [
+        {
+          "id": "sections",
+          "type": "paragraph(hero|card_group|sidebyside|accordion|quote|pricing|logo_collection|stats|newsletter|text_block)[]",
+          "label": "Sections"
+        }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "hero",
+      "label": "Hero Section",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string!", "label": "Title" },
+        { "id": "subtitle", "type": "text", "label": "Subtitle" },
+        { "id": "layout", "type": "string", "label": "Layout" },
+        { "id": "background_color", "type": "string", "label": "Background Color" },
+        { "id": "background_image", "type": "image", "label": "Background Image" },
+        { "id": "primary_cta_text", "type": "string", "label": "Primary CTA Text" },
+        { "id": "primary_cta_url", "type": "string", "label": "Primary CTA URL" },
+        { "id": "secondary_cta_text", "type": "string", "label": "Secondary CTA Text" },
+        { "id": "secondary_cta_url", "type": "string", "label": "Secondary CTA URL" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "card",
+      "label": "Card",
+      "fields": [
+        { "id": "icon", "type": "string", "label": "Icon Name" },
+        { "id": "title", "type": "string!", "label": "Title" },
+        { "id": "description", "type": "text", "label": "Description" },
+        { "id": "link_text", "type": "string", "label": "Link Text" },
+        { "id": "link_url", "type": "string", "label": "Link URL" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "card_group",
+      "label": "Card Group",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "subtitle", "type": "text", "label": "Subtitle" },
+        { "id": "columns", "type": "string", "label": "Columns" },
+        { "id": "cards", "type": "paragraph(card)[]", "label": "Cards" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "feature_item",
+      "label": "Feature Item",
+      "fields": [
+        { "id": "icon", "type": "string", "label": "Icon Name" },
+        { "id": "title", "type": "string!", "label": "Title" },
+        { "id": "description", "type": "string", "label": "Description" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "sidebyside",
+      "label": "Side by Side",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string!", "label": "Title" },
+        { "id": "content", "type": "text", "label": "Content" },
+        { "id": "image", "type": "image", "label": "Image" },
+        { "id": "image_position", "type": "string", "label": "Image Position" },
+        { "id": "features", "type": "paragraph(feature_item)[]", "label": "Features" },
+        { "id": "cta_text", "type": "string", "label": "CTA Text" },
+        { "id": "cta_url", "type": "string", "label": "CTA URL" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "faq_item",
+      "label": "FAQ Item",
+      "fields": [
+        { "id": "question", "type": "string!", "label": "Question" },
+        { "id": "answer", "type": "text!", "label": "Answer" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "accordion",
+      "label": "Accordion / FAQ",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "subtitle", "type": "text", "label": "Subtitle" },
+        { "id": "items", "type": "paragraph(faq_item)[]", "label": "FAQ Items" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "testimonial",
+      "label": "Testimonial",
+      "fields": [
+        { "id": "quote", "type": "text!", "label": "Quote" },
+        { "id": "author_name", "type": "string!", "label": "Author Name" },
+        { "id": "author_title", "type": "string", "label": "Author Title" },
+        { "id": "author_company", "type": "string", "label": "Author Company" },
+        { "id": "author_image", "type": "image", "label": "Author Image" },
+        { "id": "rating", "type": "string", "label": "Rating" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "quote",
+      "label": "Quote / Testimonials",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "layout", "type": "string", "label": "Layout" },
+        { "id": "testimonials", "type": "paragraph(testimonial)[]", "label": "Testimonials" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "pricing_tier",
+      "label": "Pricing Tier",
+      "fields": [
+        { "id": "name", "type": "string!", "label": "Tier Name" },
+        { "id": "price", "type": "string!", "label": "Price" },
+        { "id": "billing_period", "type": "string", "label": "Billing Period" },
+        { "id": "description", "type": "string", "label": "Description" },
+        { "id": "features", "type": "string[]", "label": "Features" },
+        { "id": "is_featured", "type": "bool", "label": "Featured Tier" },
+        { "id": "cta_text", "type": "string", "label": "CTA Text" },
+        { "id": "cta_url", "type": "string", "label": "CTA URL" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "pricing",
+      "label": "Pricing Section",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "subtitle", "type": "text", "label": "Subtitle" },
+        { "id": "tiers", "type": "paragraph(pricing_tier)[]", "label": "Pricing Tiers" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "logo",
+      "label": "Logo",
+      "fields": [
+        { "id": "name", "type": "string!", "label": "Company Name" },
+        { "id": "image", "type": "image", "label": "Logo Image" },
+        { "id": "url", "type": "string", "label": "Website URL" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "logo_collection",
+      "label": "Logo Collection",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "logos", "type": "paragraph(logo)[]", "label": "Logos" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "stat_item",
+      "label": "Stat Item",
+      "fields": [
+        { "id": "value", "type": "string!", "label": "Value" },
+        { "id": "label", "type": "string!", "label": "Label" },
+        { "id": "description", "type": "string", "label": "Description" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "stats",
+      "label": "Stats Section",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "background_color", "type": "string", "label": "Background Color" },
+        { "id": "stats", "type": "paragraph(stat_item)[]", "label": "Stats" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "newsletter",
+      "label": "Newsletter Section",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string!", "label": "Title" },
+        { "id": "subtitle", "type": "text", "label": "Subtitle" },
+        { "id": "placeholder", "type": "string", "label": "Input Placeholder" },
+        { "id": "button_text", "type": "string", "label": "Button Text" },
+        { "id": "background_color", "type": "string", "label": "Background Color" }
+      ]
+    },
+    {
+      "entity": "paragraph",
+      "bundle": "text_block",
+      "label": "Text Section",
+      "fields": [
+        { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
+        { "id": "title", "type": "string", "label": "Title" },
+        { "id": "content", "type": "text!", "label": "Content" },
+        { "id": "alignment", "type": "string", "label": "Alignment" },
+        { "id": "cta_text", "type": "string", "label": "CTA Text" },
+        { "id": "cta_url", "type": "string", "label": "CTA URL" }
+      ]
+    }
+  ],
+  "content": [
+    {
+      "id": "hero-main",
+      "type": "paragraph.hero",
+      "values": {
+        "eyebrow": "LaunchPad",
+        "title": "Ship products faster with the platform built for modern teams",
+        "subtitle": "Everything you need to build, deploy, and scale your product. Powerful components, seamless integrations, and world-class support.",
+        "layout": "centered",
+        "background_color": "gradient",
+        "background_image": {
+          "url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop&q=80",
+          "alt": "Abstract technology background with glowing connections"
+        },
+        "primary_cta_text": "Get Started Free",
+        "primary_cta_url": "/signup",
+        "secondary_cta_text": "Book a Demo",
+        "secondary_cta_url": "/demo"
+      }
+    },
+    {
+      "id": "logo-nextjs",
+      "type": "paragraph.logo",
+      "values": {
+        "name": "Next.js",
+        "url": "https://nextjs.org"
+      }
+    },
+    {
+      "id": "logo-drupal",
+      "type": "paragraph.logo",
+      "values": {
+        "name": "Drupal",
+        "url": "https://drupal.org"
+      }
+    },
+    {
+      "id": "logo-graphql",
+      "type": "paragraph.logo",
+      "values": {
+        "name": "GraphQL",
+        "url": "https://graphql.org"
+      }
+    },
+    {
+      "id": "logo-tailwind",
+      "type": "paragraph.logo",
+      "values": {
+        "name": "Tailwind",
+        "url": "https://tailwindcss.com"
+      }
+    },
+    {
+      "id": "logo-typescript",
+      "type": "paragraph.logo",
+      "values": {
+        "name": "TypeScript",
+        "url": "https://typescriptlang.org"
+      }
+    },
+    {
+      "id": "logo-vercel",
+      "type": "paragraph.logo",
+      "values": {
+        "name": "Vercel",
+        "url": "https://vercel.com"
+      }
+    },
+    {
+      "id": "logo-section",
+      "type": "paragraph.logo_collection",
+      "values": {
+        "eyebrow": "Tech Stack",
+        "title": "Built with modern technology",
+        "logos": ["@logo-nextjs", "@logo-drupal", "@logo-graphql", "@logo-tailwind", "@logo-typescript", "@logo-vercel"]
+      }
+    },
+    {
+      "id": "stat-1",
+      "type": "paragraph.stat_item",
+      "values": { "value": "500K+", "label": "Active Users", "description": "Developers and teams use LaunchPad daily" }
+    },
+    {
+      "id": "stat-2",
+      "type": "paragraph.stat_item",
+      "values": { "value": "99.9%", "label": "Uptime", "description": "Enterprise-grade reliability" }
+    },
+    {
+      "id": "stat-3",
+      "type": "paragraph.stat_item",
+      "values": { "value": "4.9/5", "label": "Rating", "description": "From over 2,000 reviews" }
+    },
+    {
+      "id": "stat-4",
+      "type": "paragraph.stat_item",
+      "values": { "value": "50+", "label": "Integrations", "description": "Connect with your favorite tools" }
+    },
+    {
+      "id": "stats-section",
+      "type": "paragraph.stats",
+      "values": {
+        "background_color": "light",
+        "stats": ["@stat-1", "@stat-2", "@stat-3", "@stat-4"]
+      }
+    },
+    {
+      "id": "feature-card-1",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "Zap",
+        "title": "Lightning Fast",
+        "description": "Optimized for speed with instant page loads and real-time updates. Build experiences your users will love.",
+        "link_text": "Learn more",
+        "link_url": "/features/speed"
+      }
+    },
+    {
+      "id": "feature-card-2",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "Shield",
+        "title": "Enterprise Security",
+        "description": "SOC2 compliant with end-to-end encryption. Your data is protected with industry-leading security measures.",
+        "link_text": "Learn more",
+        "link_url": "/features/security"
+      }
+    },
+    {
+      "id": "feature-card-3",
+      "type": "paragraph.card",
+      "values": {
+        "icon": "Blocks",
+        "title": "Modular Components",
+        "description": "Pre-built, customizable components that work together seamlessly. Mix and match to create your perfect stack.",
+        "link_text": "Learn more",
+        "link_url": "/features/components"
+      }
+    },
+    {
+      "id": "features-section",
+      "type": "paragraph.card_group",
+      "values": {
+        "eyebrow": "Features",
+        "title": "Everything you need to build faster",
+        "subtitle": "Powerful tools and components designed for modern development teams.",
+        "columns": "3",
+        "cards": ["@feature-card-1", "@feature-card-2", "@feature-card-3"]
+      }
+    },
+    {
+      "id": "how-feature-1",
+      "type": "paragraph.feature_item",
+      "values": { "icon": "Code", "title": "Write Code", "description": "Use our intuitive API and components to build your product quickly" }
+    },
+    {
+      "id": "how-feature-2",
+      "type": "paragraph.feature_item",
+      "values": { "icon": "GitBranch", "title": "Preview Changes", "description": "Every branch gets a preview deployment for easy collaboration" }
+    },
+    {
+      "id": "how-feature-3",
+      "type": "paragraph.feature_item",
+      "values": { "icon": "Rocket", "title": "Ship to Production", "description": "One-click deployments with automatic scaling and optimization" }
+    },
+    {
+      "id": "sidebyside-how",
+      "type": "paragraph.sidebyside",
+      "values": {
+        "eyebrow": "How It Works",
+        "title": "From idea to production in minutes",
+        "content": "<p>LaunchPad streamlines your entire development workflow. Write code with our powerful components, preview changes instantly, and ship to production with confidence.</p>",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&q=80",
+          "alt": "Developer working on laptop with code on screen"
+        },
+        "image_position": "right",
+        "features": ["@how-feature-1", "@how-feature-2", "@how-feature-3"],
+        "cta_text": "Start Building",
+        "cta_url": "/docs/getting-started"
+      }
+    },
+    {
+      "id": "integration-feature-1",
+      "type": "paragraph.feature_item",
+      "values": { "icon": "Database", "title": "Database Integrations", "description": "PostgreSQL, MySQL, MongoDB, and more with automatic backups" }
+    },
+    {
+      "id": "integration-feature-2",
+      "type": "paragraph.feature_item",
+      "values": { "icon": "Cloud", "title": "Cloud Providers", "description": "Deploy to AWS, GCP, Azure, or our managed infrastructure" }
+    },
+    {
+      "id": "integration-feature-3",
+      "type": "paragraph.feature_item",
+      "values": { "icon": "Lock", "title": "Auth Providers", "description": "Built-in support for OAuth, SAML, and custom authentication" }
+    },
+    {
+      "id": "sidebyside-integrations",
+      "type": "paragraph.sidebyside",
+      "values": {
+        "eyebrow": "Integrations",
+        "title": "Connect with the tools you already use",
+        "content": "<p>LaunchPad integrates seamlessly with your existing tech stack. No need to change how you work - we adapt to your workflow.</p>",
+        "image": {
+          "url": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&h=600&fit=crop&q=80",
+          "alt": "Network of connected cloud services and integrations"
+        },
+        "image_position": "left",
+        "features": ["@integration-feature-1", "@integration-feature-2", "@integration-feature-3"],
+        "cta_text": "View All Integrations",
+        "cta_url": "/integrations"
+      }
+    },
+    {
+      "id": "pricing-starter",
+      "type": "paragraph.pricing_tier",
+      "values": {
+        "name": "Starter",
+        "price": "$0",
+        "billing_period": "forever",
+        "description": "Perfect for side projects and learning",
+        "features": ["Up to 3 projects", "1GB storage", "Community support", "Basic analytics", "SSL certificates"],
+        "is_featured": false,
+        "cta_text": "Get Started",
+        "cta_url": "/signup?plan=starter"
+      }
+    },
+    {
+      "id": "pricing-pro",
+      "type": "paragraph.pricing_tier",
+      "values": {
+        "name": "Pro",
+        "price": "$29",
+        "billing_period": "/month",
+        "description": "For professionals and growing teams",
+        "features": ["Unlimited projects", "50GB storage", "Priority support", "Advanced analytics", "Custom domains", "Team collaboration", "API access"],
+        "is_featured": true,
+        "cta_text": "Start Free Trial",
+        "cta_url": "/signup?plan=pro"
+      }
+    },
+    {
+      "id": "pricing-enterprise",
+      "type": "paragraph.pricing_tier",
+      "values": {
+        "name": "Enterprise",
+        "price": "Custom",
+        "billing_period": "",
+        "description": "For large teams with custom needs",
+        "features": ["Everything in Pro", "Unlimited storage", "24/7 dedicated support", "Custom integrations", "SLA guarantee", "SAML SSO", "Audit logs", "On-premise option"],
+        "is_featured": false,
+        "cta_text": "Contact Sales",
+        "cta_url": "/contact-sales"
+      }
+    },
+    {
+      "id": "pricing-section",
+      "type": "paragraph.pricing",
+      "values": {
+        "eyebrow": "Pricing",
+        "title": "Simple, transparent pricing",
+        "subtitle": "Start free and scale as you grow. No hidden fees, no surprises.",
+        "tiers": ["@pricing-starter", "@pricing-pro", "@pricing-enterprise"]
+      }
+    },
+    {
+      "id": "testimonial-1",
+      "type": "paragraph.testimonial",
+      "values": {
+        "quote": "LaunchPad has completely transformed how our team builds products. We shipped our last feature in half the time it usually takes.",
+        "author_name": "Sarah Chen",
+        "author_title": "CTO",
+        "author_company": "TechFlow",
+        "author_image": {
+          "url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face&q=80",
+          "alt": "Sarah Chen headshot"
+        },
+        "rating": "5"
+      }
+    },
+    {
+      "id": "testimonial-2",
+      "type": "paragraph.testimonial",
+      "values": {
+        "quote": "The component library is incredible. Everything just works together seamlessly. It's like having an extra engineer on the team.",
+        "author_name": "Marcus Johnson",
+        "author_title": "Lead Developer",
+        "author_company": "Quantum Labs",
+        "author_image": {
+          "url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face&q=80",
+          "alt": "Marcus Johnson headshot"
+        },
+        "rating": "5"
+      }
+    },
+    {
+      "id": "testimonial-3",
+      "type": "paragraph.testimonial",
+      "values": {
+        "quote": "We evaluated 10 different platforms before choosing LaunchPad. The developer experience and support are unmatched.",
+        "author_name": "Emily Rodriguez",
+        "author_title": "Engineering Manager",
+        "author_company": "NovaSoft",
+        "author_image": {
+          "url": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face&q=80",
+          "alt": "Emily Rodriguez headshot"
+        },
+        "rating": "5"
+      }
+    },
+    {
+      "id": "quotes-section",
+      "type": "paragraph.quote",
+      "values": {
+        "eyebrow": "Testimonials",
+        "title": "Loved by developers worldwide",
+        "layout": "grid",
+        "testimonials": ["@testimonial-1", "@testimonial-2", "@testimonial-3"]
+      }
+    },
+    {
+      "id": "faq-1",
+      "type": "paragraph.faq_item",
+      "values": {
+        "question": "How do I get started with LaunchPad?",
+        "answer": "<p>Getting started is easy! Sign up for a free account, and you'll have access to our starter tier immediately. Follow our quick-start guide to deploy your first project in under 5 minutes.</p>"
+      }
+    },
+    {
+      "id": "faq-2",
+      "type": "paragraph.faq_item",
+      "values": {
+        "question": "Can I migrate my existing project to LaunchPad?",
+        "answer": "<p>Absolutely! We support migrations from most major platforms. Our CLI tool can help automate the process, and our support team is available to assist with complex migrations.</p>"
+      }
+    },
+    {
+      "id": "faq-3",
+      "type": "paragraph.faq_item",
+      "values": {
+        "question": "What languages and frameworks are supported?",
+        "answer": "<p>LaunchPad supports all major languages and frameworks including React, Vue, Next.js, Node.js, Python, Go, and more. If you can containerize it, we can run it.</p>"
+      }
+    },
+    {
+      "id": "faq-4",
+      "type": "paragraph.faq_item",
+      "values": {
+        "question": "Is there a limit on team members?",
+        "answer": "<p>The Starter plan includes up to 3 team members. Pro plans support unlimited team members. Enterprise customers can configure custom access controls and team structures.</p>"
+      }
+    },
+    {
+      "id": "faq-5",
+      "type": "paragraph.faq_item",
+      "values": {
+        "question": "How does billing work?",
+        "answer": "<p>We bill monthly or annually (with a 20% discount for annual plans). You can upgrade, downgrade, or cancel at any time. We prorate any changes to your subscription.</p>"
+      }
+    },
+    {
+      "id": "faq-6",
+      "type": "paragraph.faq_item",
+      "values": {
+        "question": "Do you offer refunds?",
+        "answer": "<p>Yes! If you're not satisfied within the first 30 days, we offer a full refund, no questions asked. We're confident you'll love LaunchPad.</p>"
+      }
+    },
+    {
+      "id": "faq-section",
+      "type": "paragraph.accordion",
+      "values": {
+        "eyebrow": "FAQ",
+        "title": "Frequently asked questions",
+        "subtitle": "Everything you need to know about LaunchPad. Can't find what you're looking for? Contact our support team.",
+        "items": ["@faq-1", "@faq-2", "@faq-3", "@faq-4", "@faq-5", "@faq-6"]
+      }
+    },
+    {
+      "id": "newsletter-section",
+      "type": "paragraph.newsletter",
+      "values": {
+        "eyebrow": "Stay Updated",
+        "title": "Ready to get started?",
+        "subtitle": "Join thousands of developers building the future. Get product updates, tips, and exclusive content delivered to your inbox.",
+        "placeholder": "Enter your email",
+        "button_text": "Subscribe",
+        "background_color": "dark"
+      }
+    },
+    {
+      "id": "homepage",
+      "type": "node.landing_page",
+      "path": "/",
+      "values": {
+        "title": "LaunchPad - Ship Faster",
+        "sections": [
+          "@hero-main",
+          "@logo-section",
+          "@stats-section",
+          "@features-section",
+          "@sidebyside-how",
+          "@sidebyside-integrations",
+          "@pricing-section",
+          "@quotes-section",
+          "@faq-section",
+          "@newsletter-section"
+        ]
+      }
+    },
+    {
+      "id": "about-hero",
+      "type": "paragraph.hero",
+      "values": {
+        "eyebrow": "About Us",
+        "title": "We're on a mission to help teams ship faster",
+        "subtitle": "Founded in 2020, LaunchPad was born from the frustration of slow, complex development workflows. Today, we help thousands of teams build and ship products faster than ever.",
+        "layout": "centered",
+        "background_color": "light",
+        "background_image": {
+          "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=1080&fit=crop&q=80",
+          "alt": "Team collaborating in modern office"
+        }
+      }
+    },
+    {
+      "id": "about-text",
+      "type": "paragraph.text_block",
+      "values": {
+        "title": "Our Story",
+        "content": "<p>We believe that building great software shouldn't be complicated. That's why we created LaunchPad - a platform that handles the complexity so you can focus on what matters: building products your users love.</p><p>Our team is made up of engineers, designers, and product people who have experienced the pain of slow development cycles firsthand. We've built LaunchPad to be the tool we always wished we had.</p>",
+        "alignment": "left"
+      }
+    },
+    {
+      "id": "team-card-1",
+      "type": "paragraph.card",
+      "values": { "icon": "User", "title": "Alex Turner", "description": "CEO & Co-founder. Previously engineering lead at Stripe.", "link_text": "LinkedIn", "link_url": "#" }
+    },
+    {
+      "id": "team-card-2",
+      "type": "paragraph.card",
+      "values": { "icon": "User", "title": "Jordan Lee", "description": "CTO & Co-founder. Former senior engineer at Google Cloud.", "link_text": "LinkedIn", "link_url": "#" }
+    },
+    {
+      "id": "team-card-3",
+      "type": "paragraph.card",
+      "values": { "icon": "User", "title": "Casey Morgan", "description": "Head of Design. Led design teams at Figma and Notion.", "link_text": "LinkedIn", "link_url": "#" }
+    },
+    {
+      "id": "team-card-4",
+      "type": "paragraph.card",
+      "values": { "icon": "User", "title": "Riley Chen", "description": "Head of Engineering. Built infrastructure at Netflix.", "link_text": "LinkedIn", "link_url": "#" }
+    },
+    {
+      "id": "team-section",
+      "type": "paragraph.card_group",
+      "values": {
+        "eyebrow": "Our Team",
+        "title": "Meet the people behind LaunchPad",
+        "columns": "4",
+        "cards": ["@team-card-1", "@team-card-2", "@team-card-3", "@team-card-4"]
+      }
+    },
+    {
+      "id": "about-page",
+      "type": "node.landing_page",
+      "path": "/about",
+      "values": {
+        "title": "About LaunchPad",
+        "sections": [
+          "@about-hero",
+          "@about-text",
+          "@stats-section",
+          "@team-section"
+        ]
+      }
+    }
+  ]
+}
