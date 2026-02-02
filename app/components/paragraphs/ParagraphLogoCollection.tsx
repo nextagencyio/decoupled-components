@@ -122,7 +122,7 @@ export default function ParagraphLogoCollection({
             ) : hasValidImage ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src={secureUrl(logo.image.url)}
+                src={secureUrl(logo.image!.url)}
                 alt={logo.name}
                 className="h-8 md:h-10 w-auto grayscale hover:grayscale-0 transition-all opacity-60 hover:opacity-100"
               />
