@@ -9,7 +9,7 @@ A component showcase starter for Decoupled Drupal + Next.js. Demonstrates 10 par
 - **10 Paragraph Components** - Hero, Cards, Sidebyside, Accordion, Testimonials, Pricing, Logos, Stats, Newsletter, Text
 - **Component Showcase** - Interactive gallery at `/showcase`
 - **Skeleton Loading** - Beautiful loading states for all components
-- **Demo Mode** - Works without Drupal for preview
+- **Demo Mode** - Works without Drupal for preview (set `NEXT_PUBLIC_DEMO_MODE=true`)
 - **Modern Design** - Purple/indigo theme with Tailwind CSS
 
 ## Quick Start
@@ -146,10 +146,45 @@ Modify `data/components-content.json` to add or change paragraph types and sampl
 ### Components
 React components are in `app/components/paragraphs/`. Update them to match your design needs.
 
+## Demo Mode
+
+Demo mode allows you to showcase the application without connecting to a Drupal backend. It displays all 10 paragraph components with sample content.
+
+### Enable Demo Mode
+
+Set the environment variable:
+
+```bash
+NEXT_PUBLIC_DEMO_MODE=true
+```
+
+Or add to `.env.local`:
+```
+NEXT_PUBLIC_DEMO_MODE=true
+```
+
+### What Demo Mode Does
+
+- Shows a "Demo Mode" banner at the top of the page
+- Displays the DemoHomepage component with all paragraph types
+- No Drupal backend required
+
+### Removing Demo Mode
+
+To convert to a production app with real data:
+
+1. Delete `lib/demo-mode.ts`
+2. Delete `app/components/DemoHomepage.tsx`
+3. Delete `app/components/DemoModeBanner.tsx`
+4. Remove `DemoModeBanner` import and usage from `app/layout.tsx`
+5. Remove demo mode check from `app/page.tsx`
+
 ## Deployment
 
 ### Vercel (Recommended)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/nextagencyio/decoupled-components)
+
+Set `NEXT_PUBLIC_DEMO_MODE=true` in Vercel environment variables for a demo deployment.
 
 ### Other Platforms
 Works with any Node.js hosting platform that supports Next.js.

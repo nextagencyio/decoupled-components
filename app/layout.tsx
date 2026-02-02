@@ -4,6 +4,8 @@ import './globals.css'
 import { ApolloProvider } from './components/providers/ApolloProvider'
 import Header from './components/Header'
 import Footer from './components/Footer'
+// DEMO MODE: Remove this import and <DemoModeBanner /> below for production-only builds
+import { DemoModeBanner } from './components/DemoModeBanner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <DemoModeBanner />
         <ApolloProvider>
           <div className="flex min-h-screen flex-col">
             <Header />

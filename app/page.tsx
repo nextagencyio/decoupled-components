@@ -4,6 +4,7 @@ import type { LandingPage, ParagraphType } from '@/lib/types'
 import { ParagraphList } from './components/paragraphs/ParagraphRenderer'
 import SetupGuide from './components/SetupGuide'
 import DemoHomepage from './components/DemoHomepage'
+import { isDemoMode } from '@/lib/demo-mode'
 
 // Helper to extract .value from Text type fields
 function extractTextValue(obj: unknown): unknown {
@@ -69,10 +70,14 @@ async function getHomepage(): Promise<LandingPage | null> {
 export default async function HomePage() {
   const drupalUrl = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
 
+  // Demo mode: show demo page with sample data
+  if (isDemoMode()) {
+    return <DemoHomepage />
+  }
+
   // Show setup guide if Drupal is not configured
   if (!drupalUrl) {
-    // Return demo page with sample data for development
-    return <DemoHomepage />
+    return <SetupGuide />
   }
 
   const page = await getHomepage()
