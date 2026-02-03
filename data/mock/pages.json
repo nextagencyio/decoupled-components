@@ -1,0 +1,216 @@
+{
+  "pages": [
+    {
+      "id": "page-about",
+      "title": "About Us",
+      "path": "/about",
+      "sections": [
+        {
+          "__typename": "ParagraphHero",
+          "id": "about-hero",
+          "eyebrow": "Our Story",
+          "title": "Building the Future of Web Development",
+          "subtitle": "We're a team of passionate developers, designers, and strategists helping businesses build faster, more flexible websites.",
+          "layout": "centered",
+          "backgroundColor": "gradient"
+        },
+        {
+          "__typename": "ParagraphStat",
+          "id": "about-stats",
+          "eyebrow": "Our Impact",
+          "title": "Trusted by Teams Worldwide",
+          "stats": [
+            { "id": "stat-1", "value": "500+", "label": "Projects Delivered", "description": "Successful launches" },
+            { "id": "stat-2", "value": "50+", "label": "Team Members", "description": "Across 12 countries" },
+            { "id": "stat-3", "value": "99%", "label": "Client Satisfaction", "description": "5-star reviews" },
+            { "id": "stat-4", "value": "24/7", "label": "Support", "description": "Always available" }
+          ]
+        },
+        {
+          "__typename": "ParagraphSidebyside",
+          "id": "about-mission",
+          "eyebrow": "Our Mission",
+          "title": "Empowering Digital Transformation",
+          "content": "We believe every business deserves a powerful, flexible web presence. Our decoupled architecture combines the best of headless CMS with modern frontend frameworks to deliver exceptional digital experiences.",
+          "imagePosition": "right",
+          "image": {
+            "url": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+            "alt": "Team collaboration"
+          },
+          "features": [
+            { "id": "f1", "icon": "Zap", "title": "Lightning Fast", "description": "Sub-second page loads" },
+            { "id": "f2", "icon": "Shield", "title": "Enterprise Secure", "description": "SOC 2 compliant" },
+            { "id": "f3", "icon": "Globe", "title": "Global Scale", "description": "Edge deployment worldwide" }
+          ]
+        },
+        {
+          "__typename": "ParagraphCardGroup",
+          "id": "about-values",
+          "eyebrow": "Our Values",
+          "title": "What Drives Us",
+          "columns": "3",
+          "cards": [
+            { "id": "v1", "icon": "Heart", "title": "Customer First", "description": "Every decision starts with how it benefits our customers." },
+            { "id": "v2", "icon": "Lightbulb", "title": "Innovation", "description": "We constantly push boundaries and embrace new technologies." },
+            { "id": "v3", "icon": "Users", "title": "Collaboration", "description": "Great products are built by great teams working together." }
+          ]
+        },
+        {
+          "__typename": "ParagraphNewsletter",
+          "id": "about-cta",
+          "title": "Ready to Transform Your Digital Presence?",
+          "subtitle": "Join thousands of teams building better websites with our platform.",
+          "buttonText": "Get Started Free",
+          "backgroundColor": "dark"
+        }
+      ]
+    },
+    {
+      "id": "page-contact",
+      "title": "Contact Us",
+      "path": "/contact",
+      "sections": [
+        {
+          "__typename": "ParagraphHero",
+          "id": "contact-hero",
+          "eyebrow": "Get in Touch",
+          "title": "We'd Love to Hear From You",
+          "subtitle": "Have questions about our platform? Want to discuss a project? Our team is here to help.",
+          "layout": "centered"
+        },
+        {
+          "__typename": "ParagraphCardGroup",
+          "id": "contact-options",
+          "title": "How to Reach Us",
+          "columns": "3",
+          "cards": [
+            { "id": "c1", "icon": "Mail", "title": "Email Us", "description": "hello@launchpad.dev", "linkText": "Send Email", "linkUrl": "mailto:hello@launchpad.dev" },
+            { "id": "c2", "icon": "MessageCircle", "title": "Live Chat", "description": "Available Mon-Fri, 9am-6pm EST", "linkText": "Start Chat", "linkUrl": "#" },
+            { "id": "c3", "icon": "Calendar", "title": "Book a Demo", "description": "See the platform in action", "linkText": "Schedule Now", "linkUrl": "#" }
+          ]
+        },
+        {
+          "__typename": "ParagraphAccordion",
+          "id": "contact-faq",
+          "eyebrow": "Quick Answers",
+          "title": "Frequently Asked Questions",
+          "items": [
+            { "id": "faq1", "question": "What's the typical response time?", "answer": "We aim to respond to all inquiries within 24 hours during business days." },
+            { "id": "faq2", "question": "Do you offer phone support?", "answer": "Phone support is available for Enterprise customers. All plans include email and chat support." },
+            { "id": "faq3", "question": "Can I schedule a product demo?", "answer": "Absolutely! Use the 'Book a Demo' option above to schedule a personalized walkthrough." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "page-features",
+      "title": "Features",
+      "path": "/features",
+      "sections": [
+        {
+          "__typename": "ParagraphHero",
+          "id": "features-hero",
+          "eyebrow": "Platform Features",
+          "title": "Everything You Need to Build Amazing Websites",
+          "subtitle": "From content management to deployment, we've got you covered with a complete suite of tools.",
+          "layout": "centered",
+          "primaryCtaText": "Start Building",
+          "primaryCtaUrl": "#",
+          "secondaryCtaText": "View Pricing",
+          "secondaryCtaUrl": "/pricing"
+        },
+        {
+          "__typename": "ParagraphCardGroup",
+          "id": "features-grid",
+          "eyebrow": "Core Features",
+          "title": "Built for Modern Development",
+          "columns": "3",
+          "cards": [
+            { "id": "feat1", "icon": "Layers", "title": "Decoupled Architecture", "description": "Separate your content from presentation for maximum flexibility." },
+            { "id": "feat2", "icon": "Zap", "title": "Edge Deployment", "description": "Deploy globally with sub-50ms response times." },
+            { "id": "feat3", "icon": "Code", "title": "Developer Experience", "description": "Modern tooling with TypeScript, React, and Next.js." },
+            { "id": "feat4", "icon": "Lock", "title": "Enterprise Security", "description": "SOC 2 compliant with SSO and role-based access." },
+            { "id": "feat5", "icon": "BarChart", "title": "Analytics", "description": "Built-in insights for content performance." },
+            { "id": "feat6", "icon": "Puzzle", "title": "Integrations", "description": "Connect with 50+ tools and services." }
+          ]
+        },
+        {
+          "__typename": "ParagraphSidebyside",
+          "id": "features-visual",
+          "eyebrow": "Visual Editing",
+          "title": "Edit Content Like Never Before",
+          "content": "Our intuitive visual editor lets content teams work independently while developers focus on building features. No more bottlenecks.",
+          "imagePosition": "right",
+          "image": {
+            "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+            "alt": "Visual editing interface"
+          },
+          "ctaText": "Learn More",
+          "ctaUrl": "#"
+        }
+      ]
+    },
+    {
+      "id": "page-pricing",
+      "title": "Pricing",
+      "path": "/pricing",
+      "sections": [
+        {
+          "__typename": "ParagraphHero",
+          "id": "pricing-hero",
+          "eyebrow": "Simple Pricing",
+          "title": "Choose the Plan That's Right for You",
+          "subtitle": "Start free and scale as you grow. No hidden fees, no surprises.",
+          "layout": "centered"
+        },
+        {
+          "__typename": "ParagraphPricing",
+          "id": "pricing-tiers",
+          "tiers": [
+            {
+              "id": "tier-free",
+              "name": "Starter",
+              "price": "$0",
+              "billingPeriod": "forever",
+              "description": "Perfect for personal projects and experimentation",
+              "features": ["1 project", "Community support", "Basic analytics", "Shared hosting"],
+              "ctaText": "Get Started",
+              "ctaUrl": "#"
+            },
+            {
+              "id": "tier-pro",
+              "name": "Pro",
+              "price": "$29",
+              "billingPeriod": "/month",
+              "description": "For professional developers and small teams",
+              "features": ["Unlimited projects", "Priority support", "Advanced analytics", "Custom domains", "Team collaboration"],
+              "isFeatured": true,
+              "ctaText": "Start Free Trial",
+              "ctaUrl": "#"
+            },
+            {
+              "id": "tier-enterprise",
+              "name": "Enterprise",
+              "price": "Custom",
+              "description": "For organizations with advanced needs",
+              "features": ["Everything in Pro", "SSO & SAML", "SLA guarantee", "Dedicated support", "Custom integrations"],
+              "ctaText": "Contact Sales",
+              "ctaUrl": "/contact"
+            }
+          ]
+        },
+        {
+          "__typename": "ParagraphAccordion",
+          "id": "pricing-faq",
+          "eyebrow": "Questions?",
+          "title": "Pricing FAQ",
+          "items": [
+            { "id": "pf1", "question": "Can I change plans later?", "answer": "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately." },
+            { "id": "pf2", "question": "Is there a free trial?", "answer": "Pro plans come with a 14-day free trial. No credit card required to start." },
+            { "id": "pf3", "question": "What payment methods do you accept?", "answer": "We accept all major credit cards and can arrange invoicing for Enterprise customers." }
+          ]
+        }
+      ]
+    }
+  ]
+}

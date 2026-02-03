@@ -3,10 +3,13 @@ import { getApolloClient } from '@/lib/apollo-client'
 import { GET_LANDING_PAGE, GET_ALL_LANDING_PAGES } from '@/lib/queries'
 import type { LandingPage, ParagraphType } from '@/lib/types'
 import { ParagraphList } from '../components/paragraphs/ParagraphRenderer'
+import { isDemoMode, getMockPageByPath, getMockPages } from '@/lib/demo-mode'
 
 interface PageProps {
   params: Promise<{ slug: string[] }>
 }
+
+const isDrupalConfigured = () => !!process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
 
 // Helper to extract .value from Text type fields
 function extractTextValue(obj: unknown): unknown {
@@ -31,9 +34,12 @@ function transformSections(sections: unknown[]): ParagraphType[] {
 }
 
 async function getPage(path: string): Promise<LandingPage | null> {
-  const drupalUrl = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
+  // Demo mode: return mock page
+  if (isDemoMode()) {
+    return getMockPageByPath(path)
+  }
 
-  if (!drupalUrl) {
+  if (!isDrupalConfigured()) {
     return null
   }
 
@@ -59,9 +65,16 @@ async function getPage(path: string): Promise<LandingPage | null> {
 }
 
 export async function generateStaticParams() {
-  const drupalUrl = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL
+  // Demo mode: return mock page paths
+  if (isDemoMode()) {
+    return getMockPages()
+      .filter(page => page.path !== '/')
+      .map(page => ({
+        slug: page.path.split('/').filter(Boolean),
+      }))
+  }
 
-  if (!drupalUrl) {
+  if (!isDrupalConfigured()) {
     return []
   }
 
