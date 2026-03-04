@@ -8,7 +8,7 @@
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "WATCHPACK_POLLING=true next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
