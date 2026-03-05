@@ -231,9 +231,9 @@
           "alt": "Abstract technology background with glowing connections"
         },
         "primary_cta_text": "Get Started Free",
-        "primary_cta_url": "/signup",
+        "primary_cta_url": "/showcase",
         "secondary_cta_text": "Book a Demo",
-        "secondary_cta_url": "/demo"
+        "secondary_cta_url": "/showcase"
       }
     },
     {
@@ -426,7 +426,7 @@
         "image_position": "left",
         "features": ["@integration-feature-1", "@integration-feature-2", "@integration-feature-3"],
         "cta_text": "View All Integrations",
-        "cta_url": "/integrations"
+        "cta_url": "/showcase"
       }
     },
     {

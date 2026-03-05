@@ -21,9 +21,9 @@ const demoData = {
     layout: 'centered' as const,
     backgroundColor: 'gradient',
     primaryCtaText: 'Get Started Free',
-    primaryCtaUrl: '/signup',
+    primaryCtaUrl: '/showcase',
     secondaryCtaText: 'Book a Demo',
-    secondaryCtaUrl: '/demo',
+    secondaryCtaUrl: '/showcase',
   },
   logos: {
     __typename: 'ParagraphLogoCollection' as const,

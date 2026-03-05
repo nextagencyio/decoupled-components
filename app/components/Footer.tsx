@@ -5,25 +5,25 @@ const footerLinks = {
   product: [
     { name: 'Features', href: '/#features' },
     { name: 'Pricing', href: '/#pricing' },
-    { name: 'Integrations', href: '/integrations' },
-    { name: 'Changelog', href: '/changelog' },
+    { name: 'Integrations', href: '/showcase' },
+    { name: 'Changelog', href: '/showcase' },
   ],
   company: [
     { name: 'About', href: '/about' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Careers', href: '/careers' },
+    { name: 'Blog', href: '/showcase' },
+    { name: 'Careers', href: '/showcase' },
     { name: 'Contact', href: '/contact' },
   ],
   resources: [
-    { name: 'Documentation', href: '/docs' },
-    { name: 'API Reference', href: '/api' },
+    { name: 'Documentation', href: '/showcase' },
+    { name: 'API Reference', href: '/showcase' },
     { name: 'Showcase', href: '/showcase' },
-    { name: 'Support', href: '/support' },
+    { name: 'Support', href: '/showcase' },
   ],
   legal: [
-    { name: 'Privacy', href: '/privacy' },
-    { name: 'Terms', href: '/terms' },
-    { name: 'Security', href: '/security' },
+    { name: 'Privacy', href: '/showcase' },
+    { name: 'Terms', href: '/showcase' },
+    { name: 'Security', href: '/showcase' },
   ],
 }
 
