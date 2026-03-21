@@ -20,8 +20,8 @@
         { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
         { "id": "title", "type": "string!", "label": "Title" },
         { "id": "subtitle", "type": "text", "label": "Subtitle" },
-        { "id": "layout", "type": "string", "label": "Layout" },
-        { "id": "background_color", "type": "string", "label": "Background Color" },
+        { "id": "layout", "type": "select(centered|left_aligned|full_width)", "label": "Layout" },
+        { "id": "background_color", "type": "select(gradient|light|dark|white|primary)", "label": "Background Color" },
         { "id": "background_image", "type": "image", "label": "Background Image" },
         { "id": "primary_cta_text", "type": "string", "label": "Primary CTA Text" },
         { "id": "primary_cta_url", "type": "string", "label": "Primary CTA URL" },
@@ -49,7 +49,7 @@
         { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
         { "id": "title", "type": "string", "label": "Title" },
         { "id": "subtitle", "type": "text", "label": "Subtitle" },
-        { "id": "columns", "type": "string", "label": "Columns" },
+        { "id": "columns", "type": "select(2|3|4)", "label": "Columns" },
         { "id": "cards", "type": "paragraph(card)[]", "label": "Cards" }
       ]
     },
@@ -118,7 +118,7 @@
       "fields": [
         { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
         { "id": "title", "type": "string", "label": "Title" },
-        { "id": "layout", "type": "string", "label": "Layout" },
+        { "id": "layout", "type": "select(grid|carousel|stacked)", "label": "Layout" },
         { "id": "testimonials", "type": "paragraph(testimonial)[]", "label": "Testimonials" }
       ]
     },
@@ -185,7 +185,7 @@
       "fields": [
         { "id": "eyebrow", "type": "string", "label": "Eyebrow Text" },
         { "id": "title", "type": "string", "label": "Title" },
-        { "id": "background_color", "type": "string", "label": "Background Color" },
+        { "id": "background_color", "type": "select(gradient|light|dark|white|primary)", "label": "Background Color" },
         { "id": "stats", "type": "paragraph(stat_item)[]", "label": "Stats" }
       ]
     },
@@ -199,7 +199,7 @@
         { "id": "subtitle", "type": "text", "label": "Subtitle" },
         { "id": "placeholder", "type": "string", "label": "Input Placeholder" },
         { "id": "button_text", "type": "string", "label": "Button Text" },
-        { "id": "background_color", "type": "string", "label": "Background Color" }
+        { "id": "background_color", "type": "select(gradient|light|dark|white|primary)", "label": "Background Color" }
       ]
     },
     {
