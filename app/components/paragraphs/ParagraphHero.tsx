@@ -79,15 +79,14 @@ export default function ParagraphHero({
 
           {/* Subtitle */}
           {subtitle && (
-            <p
+            <div
               className={clsx(
-                'text-lg md:text-xl max-w-2xl mb-10',
+                'text-lg md:text-xl max-w-2xl mb-10 [&>p]:m-0',
                 layout === 'centered' && 'mx-auto',
                 isDark || backgroundImage ? 'text-gray-200' : 'text-gray-600'
               )}
-            >
-              {subtitle}
-            </p>
+              dangerouslySetInnerHTML={{ __html: subtitle }}
+            />
           )}
 
           {/* CTAs */}
