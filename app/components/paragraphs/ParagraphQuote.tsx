@@ -43,7 +43,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={secureUrl(testimonial.authorImage.url)}
-            alt={testimonial.authorName}
+            alt={testimonial.authorName ?? ''}
             width={48}
             height={48}
             className="rounded-full w-12 h-12 object-cover"
@@ -51,7 +51,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
         ) : (
           <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
             <span className="text-primary-600 font-semibold text-lg">
-              {testimonial.authorName.charAt(0)}
+              {testimonial.authorName?.charAt(0) ?? '?'}
             </span>
           </div>
         )}
@@ -98,13 +98,13 @@ export default function ParagraphQuote({
         )}
 
         {/* Testimonials */}
-        {layout === 'single' && testimonials.length > 0 ? (
+        {layout === 'single' && testimonials?.length > 0 ? (
           <div className="max-w-3xl mx-auto">
             <TestimonialCard testimonial={testimonials[0]} />
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {testimonials.map((testimonial) => (
+            {(testimonials ?? []).map((testimonial) => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}
           </div>

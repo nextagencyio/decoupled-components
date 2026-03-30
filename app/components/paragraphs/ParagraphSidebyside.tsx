@@ -104,7 +104,7 @@ export default function ParagraphSidebyside({
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={secureUrl(image.url)}
-                alt={image.alt || title}
+                alt={image.alt || title || ''}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             ) : (

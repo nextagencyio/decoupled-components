@@ -103,8 +103,8 @@ export default function ParagraphLogoCollection({
 
         {/* Logos */}
         <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 lg:gap-14">
-          {logos.map((logo) => {
-            const nameKey = logo.name.toLowerCase()
+          {(logos ?? []).map((logo) => {
+            const nameKey = (logo.name ?? '').toLowerCase()
             const LogoIcon = TechLogos[nameKey]
             const brandColor = brandColors[nameKey]
 

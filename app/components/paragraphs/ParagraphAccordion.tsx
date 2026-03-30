@@ -38,39 +38,43 @@ export default function ParagraphAccordion({
           )}
 
           {/* Accordion Items */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-200 divide-y divide-gray-200">
-            {items.map((item, index) => (
-              <div key={item.id} className="overflow-hidden">
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="flex w-full items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
-                  aria-expanded={openIndex === index}
-                >
-                  <span className="text-lg font-medium text-gray-900 pr-4">
-                    {item.question}
-                  </span>
-                  <ChevronDown
-                    className={clsx(
-                      'flex-shrink-0 w-5 h-5 text-gray-500 transition-transform duration-200',
-                      openIndex === index && 'rotate-180'
-                    )}
-                  />
-                </button>
-                <div
-                  className={clsx(
-                    'overflow-hidden transition-all duration-200',
-                    openIndex === index ? 'max-h-96' : 'max-h-0'
+          {items?.length > 0 && (
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 divide-y divide-gray-200">
+              {items.map((item, index) => (
+                <div key={item.id} className="overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    className="flex w-full items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
+                    aria-expanded={openIndex === index}
+                  >
+                    <span className="text-lg font-medium text-gray-900 pr-4">
+                      {item.question}
+                    </span>
+                    <ChevronDown
+                      className={clsx(
+                        'flex-shrink-0 w-5 h-5 text-gray-500 transition-transform duration-200',
+                        openIndex === index && 'rotate-180'
+                      )}
+                    />
+                  </button>
+                  {item.answer && (
+                    <div
+                      className={clsx(
+                        'overflow-hidden transition-all duration-200',
+                        openIndex === index ? 'max-h-96' : 'max-h-0'
+                      )}
+                    >
+                      <div
+                        className="px-6 pb-6 prose prose-gray max-w-none"
+                        dangerouslySetInnerHTML={{ __html: item.answer }}
+                      />
+                    </div>
                   )}
-                >
-                  <div
-                    className="px-6 pb-6 prose prose-gray max-w-none"
-                    dangerouslySetInnerHTML={{ __html: item.answer }}
-                  />
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

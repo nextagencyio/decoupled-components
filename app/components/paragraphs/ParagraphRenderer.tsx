@@ -49,6 +49,7 @@ interface ParagraphListProps {
 }
 
 export function ParagraphList({ sections }: ParagraphListProps) {
+  if (!sections?.length) return null
   return (
     <>
       {sections.map((section) => (

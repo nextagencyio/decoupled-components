@@ -39,13 +39,15 @@ export default function ParagraphText({
           )}
 
           {/* Content */}
-          <div
-            className={clsx(
-              'prose prose-lg max-w-none',
-              isCentered && 'prose-center'
-            )}
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+          {content && (
+            <div
+              className={clsx(
+                'prose prose-lg max-w-none',
+                isCentered && 'prose-center'
+              )}
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          )}
 
           {/* CTA */}
           {ctaText && ctaUrl && (
