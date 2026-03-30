@@ -7,7 +7,7 @@ import {
   SkeletonPricing,
   SkeletonAccordion,
   SkeletonNewsletter,
-} from './components/ui/Skeleton'
+} from '@/app/components/ui/Skeleton'
 
 export default function Loading() {
   return (

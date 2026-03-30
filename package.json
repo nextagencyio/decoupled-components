@@ -18,11 +18,13 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
+    "@puckeditor/core": "^0.21.1",
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.1",
     "lucide-react": "^0.539.0",
     "next": "^16.1.6",
+    "puck-plugin-ai": "^0.2.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

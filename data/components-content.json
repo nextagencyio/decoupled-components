@@ -4,6 +4,7 @@
       "bundle": "landing_page",
       "label": "Landing Page",
       "body": false,
+      "puck": true,
       "fields": [
         {
           "id": "sections",
