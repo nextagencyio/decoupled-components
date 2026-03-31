@@ -44,7 +44,7 @@ function PricingCard({ tier }: { tier: PricingTier }) {
       </div>
 
       {/* Features */}
-      {tier.features && tier.features.length > 0 && (
+      {Array.isArray(tier.features) && tier.features.length > 0 && (
         <ul className="flex-1 space-y-3 mb-8">
           {tier.features.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
@@ -107,7 +107,7 @@ export default function ParagraphPricing({
               tiers.length >= 4 && 'md:grid-cols-2 lg:grid-cols-4'
             )}
           >
-            {tiers.map((tier) => (
+            {(Array.isArray(tiers) ? tiers : []).map((tier) => (
               <PricingCard key={tier.id} tier={tier} />
             ))}
           </div>

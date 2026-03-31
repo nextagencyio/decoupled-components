@@ -60,7 +60,7 @@ export default function ParagraphSidebyside({
             )}
 
             {/* Features List */}
-            {features && features.length > 0 && (
+            {Array.isArray(features) && features.length > 0 && (
               <ul className="space-y-4 mb-8">
                 {features.map((feature) => (
                   <li key={feature.id} className="flex gap-4">

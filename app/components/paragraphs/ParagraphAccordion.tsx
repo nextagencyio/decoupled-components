@@ -38,7 +38,7 @@ export default function ParagraphAccordion({
           )}
 
           {/* Accordion Items */}
-          {items?.length > 0 && (
+          {Array.isArray(items) && items.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 divide-y divide-gray-200">
               {items.map((item, index) => (
                 <div key={item.id} className="overflow-hidden">

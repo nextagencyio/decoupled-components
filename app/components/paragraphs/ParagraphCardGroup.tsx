@@ -75,7 +75,7 @@ export default function ParagraphCardGroup({
         )}
 
         {/* Cards Grid */}
-        {cards && cards.length > 0 ? (
+        {Array.isArray(cards) && cards.length > 0 ? (
           <div className={clsx('grid gap-6 md:gap-8', gridCols[columns])}>
             {cards.map((card) => (
               <FeatureCard key={card.id} card={card} />
