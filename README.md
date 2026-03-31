@@ -72,29 +72,42 @@ Drupal (CMS)                          Next.js (Frontend + Editor)
 │   ├── Design Studio tab             ├── /node/[nid]         ← Preview render
 │   ├── PuckMappingService            ├── /[...slug]          ← Frontend pages
 │   ├── /api/puck/load/{nid}          ├── /api/drupal-puck/   ← Proxy to Drupal
-│   ├── /api/puck/save/{nid}          ├── /api/ai/generate    ← AI generation
-│   └── Signed token auth             └── /api/upload/        ← Cloudinary proxy
+│   ├── /api/puck/save/{nid}          ├── /api/ai/generate    ← Groq AI endpoint
+│   └── Signed token auth             ├── /api/puck/[...all]  ← Puck Cloud AI proxy
+│                                     └── /api/upload/        ← Cloudinary proxy
 ├── Paragraph entities (field_sections)
 └── GraphQL (graphql_compose)
 ```
 
 ### AI-Assisted Content
 
-The editor includes an AI chat panel powered by [`puck-plugin-ai`](https://github.com/nextagencyio/puck-plugin-ai) that uses Groq/Llama to generate and modify page content.
+The editor ships with **two AI providers** — switch between them with an environment variable:
+
+| Provider | Plugin | Backend | Cost | Env Var |
+|----------|--------|---------|------|---------|
+| **Groq** (default) | `puck-plugin-ai` | Groq/Llama via Vercel AI SDK | Free (Groq free tier) | `GROQ_API_KEY` |
+| **Puck Cloud** | `@puckeditor/plugin-ai` | Puck's hosted AI | $25/mo + per-use | `PUCK_API_KEY` |
+
+Set the provider in `.env.local`:
+
+```env
+# "groq" (default) or "puck-cloud"
+NEXT_PUBLIC_PUCK_AI_PROVIDER=groq
+
+# Groq (free)
+GROQ_API_KEY=your_groq_api_key
+
+# Puck Cloud (paid — https://cloud.puckeditor.com)
+PUCK_API_KEY=your_puck_cloud_api_key
+```
+
+Both support natural language page generation:
 
 | User Says | Action |
 |-----------|--------|
 | "Create a landing page for a coffee shop" | Generates full page |
 | "Add a pricing section with 3 tiers" | Appends to existing page |
 | "Rewrite the hero with better copy" | Updates specific section |
-
-Configure with environment variables:
-
-```env
-GROQ_API_KEY=your_groq_api_key          # Required for AI
-GROQ_MODEL=llama-3.3-70b-versatile      # Optional, default model
-UNSPLASH_ACCESS_KEY=your_unsplash_key    # Optional, real AI images
-```
 
 ### Single Source of Truth
 
@@ -270,7 +283,8 @@ Works with any Node.js hosting platform that supports Next.js.
 
 - **Next.js 16** (App Router, React 19)
 - **@puckeditor/core 0.21** (drag-and-drop visual editor)
-- **[puck-plugin-ai](https://github.com/nextagencyio/puck-plugin-ai)** (AI chat — Groq/Llama)
+- **[puck-plugin-ai](https://github.com/nextagencyio/puck-plugin-ai)** (AI chat — Groq/Llama via Vercel AI SDK)
+- **@puckeditor/plugin-ai** (official Puck Cloud AI — optional)
 - **Tailwind CSS 3** (component styling)
 - **Apollo Client** (GraphQL data fetching)
 - **Cloudinary** (image upload and hosting)

@@ -3,11 +3,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Puck, type Data } from '@puckeditor/core'
 import { puckConfig } from '@/lib/puck-config'
-import { createAiPlugin } from '@puckeditor/plugin-ai'
-import '@puckeditor/plugin-ai/styles.css'
 import { useParams, useSearchParams } from 'next/navigation'
 
-const aiPlugin = createAiPlugin()
+// AI plugin — switch via NEXT_PUBLIC_PUCK_AI_PROVIDER env var
+// "puck-cloud" = official Puck Cloud plugin (requires PUCK_API_KEY)
+// "groq" (default) = custom Groq/Llama plugin (requires GROQ_API_KEY)
+import { aiPlugin as groqPlugin } from '@/lib/ai-plugin-groq'
+import { aiPlugin as puckCloudPlugin } from '@/lib/ai-plugin-puck-cloud'
+
+const aiPlugin = process.env.NEXT_PUBLIC_PUCK_AI_PROVIDER === 'puck-cloud'
+  ? puckCloudPlugin
+  : groqPlugin
 
 const PUCK_API = '/api/drupal-puck'
 const DRUPAL_BASE_URL = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || 'http://localhost:8888'

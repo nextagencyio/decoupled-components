@@ -169,21 +169,30 @@ app/components/paragraphs/   React components for each paragraph type (10)
 
 ## Puck AI Integration
 
-The editor uses the official `@puckeditor/plugin-ai` plugin with Puck Cloud as the AI backend.
+Two AI providers are available, switched via `NEXT_PUBLIC_PUCK_AI_PROVIDER`:
 
-**How it works:**
-1. User types a prompt in the AI chat panel (e.g., "Create a hero section about coffee")
-2. Plugin sends the prompt + current page data + component config to `/api/puck/chat`
-3. The API route proxies to Puck Cloud via `puckHandler` from `@puckeditor/cloud-client`
-4. Puck Cloud generates/modifies the page using your component definitions
-5. The editor updates live with the AI-generated content
+### Groq (default — free)
+- Provider: `puck-plugin-ai` with Vercel AI SDK + `@ai-sdk/groq`
+- Endpoint: `/api/ai/generate`
+- Model: `llama-3.3-70b-versatile` (configurable via `GROQ_MODEL`)
+- Cost: Free (Groq free tier)
+- Key files: `lib/ai-plugin-groq.ts`, `app/api/ai/generate/route.ts`
 
-**Supported actions:**
+### Puck Cloud (paid)
+- Provider: `@puckeditor/plugin-ai` + `@puckeditor/cloud-client`
+- Endpoint: `/api/puck/[...all]` (proxies to Puck Cloud)
+- Cost: $25/mo + ~$0.30/generation
+- Key files: `lib/ai-plugin-puck-cloud.ts`, `app/api/puck/[...all]/route.ts`
+
+### Switching providers
+Change `NEXT_PUBLIC_PUCK_AI_PROVIDER` in `.env.local` and rebuild:
+- `groq` — uses Groq/Llama (default)
+- `puck-cloud` — uses Puck Cloud
+
+Both support the same actions:
 - "Create a landing page about X" → generates a full page
 - "Add a pricing section" → appends to the existing page
 - "Rewrite the hero copy" → updates a specific section
-
-**Cost:** ~$0.30 per page generation, ~$0.15 per update. Tracked via `onFinish` callback.
 
 ## Puck Editor Access
 
