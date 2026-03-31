@@ -62,13 +62,14 @@ export function getSessionFromRequest(request: Request): PuckSession | null {
 }
 
 /**
- * Get all active editors for a given node, excluding a specific user.
+ * Get all other active sessions for a given node, excluding a specific session.
+ * Detects both different users AND same user in multiple tabs.
  */
-export function getOtherEditors(nid: number, excludeUid: number): { uid: number; name: string }[] {
+export function getOtherEditors(nid: number, excludeSessionId: string): { uid: number; name: string }[] {
   cleanupSessions()
-  const editors = new Map<number, string>() // uid → name (dedup multiple tabs)
-  for (const session of sessions.values()) {
-    if (session.nid === nid && session.uid !== excludeUid) {
+  const editors = new Map<number, string>() // uid → name (dedup by uid)
+  for (const [sessionId, session] of sessions) {
+    if (session.nid === nid && sessionId !== excludeSessionId) {
       editors.set(session.uid, session.name)
     }
   }
