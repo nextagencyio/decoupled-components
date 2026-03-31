@@ -29,6 +29,13 @@ const SESSION_LIFETIME_MS = 8 * 60 * 60 * 1000
 export const COOKIE_NAME = 'puck_session'
 
 export function createSession(uid: number, name: string, nid: number, token: string): string {
+  // Remove any stale sessions for this user+node (e.g., previous tab, old token)
+  for (const [id, session] of sessions) {
+    if (session.uid === uid && session.nid === nid) {
+      sessions.delete(id)
+    }
+  }
+
   const sessionId = crypto.randomBytes(32).toString('hex')
   const now = Date.now()
   sessions.set(sessionId, { uid, name, nid, token, createdAt: now, lastSeen: now })
