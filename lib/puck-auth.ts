@@ -17,6 +17,7 @@ interface PuckSession {
   nid: number
   token: string
   createdAt: number
+  lastSeen: number
 }
 
 // In-memory session store. In production, use Redis or similar.
@@ -29,8 +30,14 @@ export const COOKIE_NAME = 'puck_session'
 
 export function createSession(uid: number, name: string, nid: number, token: string): string {
   const sessionId = crypto.randomBytes(32).toString('hex')
-  sessions.set(sessionId, { uid, name, nid, token, createdAt: Date.now() })
+  const now = Date.now()
+  sessions.set(sessionId, { uid, name, nid, token, createdAt: now, lastSeen: now })
   return sessionId
+}
+
+export function touchSession(sessionId: string): void {
+  const session = sessions.get(sessionId)
+  if (session) session.lastSeen = Date.now()
 }
 
 export function getSession(sessionId: string): PuckSession | null {
@@ -63,14 +70,19 @@ export function getSessionFromRequest(request: Request): PuckSession | null {
 
 /**
  * Get all other active sessions for a given node, excluding a specific session.
- * Detects both different users AND same user in multiple tabs.
+ * Only returns sessions that have heartbeated within the last 30 seconds.
  */
+const PRESENCE_TIMEOUT_MS = 30_000
+
 export function getOtherEditors(nid: number, excludeSessionId: string): { uid: number; name: string }[] {
   cleanupSessions()
+  const now = Date.now()
   const editors = new Map<number, string>() // uid → name (dedup by uid)
   for (const [sessionId, session] of sessions) {
     if (session.nid === nid && sessionId !== excludeSessionId) {
-      editors.set(session.uid, session.name)
+      if (now - session.lastSeen < PRESENCE_TIMEOUT_MS) {
+        editors.set(session.uid, session.name)
+      }
     }
   }
   return Array.from(editors, ([uid, name]) => ({ uid, name }))
