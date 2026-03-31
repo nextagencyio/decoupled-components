@@ -61,6 +61,20 @@ export function getSessionFromRequest(request: Request): PuckSession | null {
   return getSession(match[1])
 }
 
+/**
+ * Get all active editors for a given node, excluding a specific user.
+ */
+export function getOtherEditors(nid: number, excludeUid: number): { uid: number; name: string }[] {
+  cleanupSessions()
+  const editors = new Map<number, string>() // uid → name (dedup multiple tabs)
+  for (const session of sessions.values()) {
+    if (session.nid === nid && session.uid !== excludeUid) {
+      editors.set(session.uid, session.name)
+    }
+  }
+  return Array.from(editors, ([uid, name]) => ({ uid, name }))
+}
+
 // Periodic cleanup of expired sessions (runs lazily).
 let lastCleanup = 0
 export function cleanupSessions(): void {

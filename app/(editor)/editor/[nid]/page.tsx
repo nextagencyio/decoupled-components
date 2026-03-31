@@ -4,10 +4,9 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Puck, type Data } from '@puckeditor/core'
 import { puckConfig } from '@/lib/puck-config'
 import { useParams, useSearchParams } from 'next/navigation'
+import { ConfirmDialog } from '@/app/components/editor/ConfirmDialog'
 
 // AI plugin — switch via NEXT_PUBLIC_PUCK_AI_PROVIDER env var
-// "puck-cloud" = official Puck Cloud plugin (requires PUCK_API_KEY)
-// "groq" (default) = custom Groq/Llama plugin (requires GROQ_API_KEY)
 import { aiPlugin as groqPlugin } from '@/lib/ai-plugin-groq'
 import { aiPlugin as puckCloudPlugin } from '@/lib/ai-plugin-puck-cloud'
 
@@ -18,7 +17,13 @@ const aiPlugin = process.env.NEXT_PUBLIC_PUCK_AI_PROVIDER === 'puck-cloud'
 const PUCK_API = '/api/drupal-puck'
 const DRUPAL_BASE_URL = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || 'http://localhost:8888'
 
+const COLORS = [
+  '#ef4444', '#f97316', '#eab308', '#22c55e',
+  '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
+]
+
 type AuthUser = { uid: number; name: string }
+type OtherEditor = { uid: number; name: string }
 
 type EditorState =
   | { status: 'loading' }
@@ -51,6 +56,37 @@ function ToastNotification({ toast, onDismiss }: { toast: Toast; onDismiss: () =
   )
 }
 
+/** Presence avatars in the header bar */
+function PresenceAvatars({ editors }: { editors: OtherEditor[] }) {
+  if (editors.length === 0) return null
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginRight: '8px' }}>
+      {editors.map((editor, i) => (
+        <div
+          key={editor.uid}
+          title={editor.name}
+          style={{
+            width: '28px', height: '28px', borderRadius: '50%',
+            backgroundColor: COLORS[editor.uid % COLORS.length],
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '12px', fontWeight: 600, color: 'white',
+            border: '2px solid white', boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
+            cursor: 'default', flexShrink: 0,
+          }}
+        >
+          {editor.name?.charAt(0)?.toUpperCase() || '?'}
+        </div>
+      ))}
+      <span style={{ fontSize: '11px', color: '#6b7280', marginLeft: '2px', whiteSpace: 'nowrap' }}>
+        {editors.length === 1
+          ? `${editors[0].name} is editing`
+          : `${editors.length} others editing`}
+      </span>
+    </div>
+  )
+}
+
 export default function EditorPage() {
   const params = useParams()
   const searchParams = useSearchParams()
@@ -58,6 +94,8 @@ export default function EditorPage() {
   const token = searchParams.get('token')
   const [state, setState] = useState<EditorState>({ status: 'loading' })
   const [toasts, setToasts] = useState<Toast[]>([])
+  const [otherEditors, setOtherEditors] = useState<OtherEditor[]>([])
+  const [pendingPublish, setPendingPublish] = useState<Data | null>(null)
   const stateRef = useRef(state)
   stateRef.current = state
   const toastIdRef = useRef(0)
@@ -75,7 +113,6 @@ export default function EditorPage() {
   useEffect(() => {
     async function load() {
       try {
-        // Step 1: Validate the signed token from Drupal.
         let user: AuthUser
 
         if (token) {
@@ -92,14 +129,11 @@ export default function EditorPage() {
           }
 
           user = { uid: authData.user.uid, name: authData.user.name }
-        }
-        else {
-          // No token — block access. Must open editor from Drupal.
+        } else {
           setState({ status: 'unauthorized', message: 'No authentication token provided.' })
           return
         }
 
-        // Step 2: Load Puck data from Drupal (paragraphs → Puck JSON).
         const res = await fetch(`${PUCK_API}/load/${nid}`)
         if (!res.ok) throw new Error(`Failed to load page: ${res.status}`)
         const data: Data = await res.json()
@@ -113,8 +147,29 @@ export default function EditorPage() {
     load()
   }, [nid, token])
 
-  // Save handler — stable via ref.
-  const handlePublish = useCallback(async (data: Data) => {
+  // Poll for other editors every 10 seconds
+  useEffect(() => {
+    if (state.status !== 'ready' && state.status !== 'saving') return
+
+    const poll = async () => {
+      try {
+        const res = await fetch('/api/editor-presence')
+        if (res.ok) {
+          const { editors } = await res.json()
+          setOtherEditors(editors || [])
+        }
+      } catch {
+        // Silently ignore polling errors
+      }
+    }
+
+    poll() // Immediate first check
+    const interval = setInterval(poll, 10000)
+    return () => clearInterval(interval)
+  }, [state.status])
+
+  // Publish handler
+  const doPublish = useCallback(async (data: Data) => {
     const current = stateRef.current
     if (current.status !== 'ready') return
 
@@ -143,7 +198,15 @@ export default function EditorPage() {
         setState({ status: 'ready', data, user: cur.user })
       }
     }
-  }, [addToast])
+  }, [nid, addToast])
+
+  const handlePublish = useCallback(async (data: Data) => {
+    if (otherEditors.length > 0) {
+      setPendingPublish(data)
+    } else {
+      doPublish(data)
+    }
+  }, [otherEditors, doPublish])
 
   if (state.status === 'loading') {
     return (
@@ -201,6 +264,15 @@ export default function EditorPage() {
 
   const drupalNodeUrl = `${DRUPAL_BASE_URL}/node/${nid}`
 
+  const names = otherEditors.map(e => e.name).filter(Boolean)
+  const nameList = names.length === 1
+    ? names[0]
+    : names.length === 2
+      ? `${names[0]} and ${names[1]}`
+      : names.length > 2
+        ? `${names.slice(0, -1).join(', ')}, and ${names[names.length - 1]}`
+        : ''
+
   return (
     <>
       <style>{`
@@ -220,6 +292,27 @@ export default function EditorPage() {
         ))}
       </div>
 
+      {/* Publish confirmation dialog */}
+      {pendingPublish && nameList && (
+        <ConfirmDialog
+          title="Other editors are active"
+          message={`${nameList} ${otherEditors.length === 1 ? 'is' : 'are'} also editing this page. Publishing now may overwrite their unsaved changes.`}
+          confirmLabel="Publish Anyway"
+          cancelLabel="Cancel"
+          confirmColor="#2563eb"
+          avatars={otherEditors.map(e => ({
+            name: e.name,
+            color: COLORS[e.uid % COLORS.length],
+          }))}
+          onConfirm={() => {
+            const d = pendingPublish
+            setPendingPublish(null)
+            doPublish(d)
+          }}
+          onCancel={() => setPendingPublish(null)}
+        />
+      )}
+
       <Puck
         config={puckConfig}
         data={state.data}
@@ -229,7 +322,10 @@ export default function EditorPage() {
         overrides={{
           headerActions: ({ children }) => (
             <>
-              {/* Show authenticated user */}
+              {/* Other editors */}
+              <PresenceAvatars editors={otherEditors} />
+
+              {/* Current user */}
               {state.user.uid > 0 && (
                 <span style={{ fontSize: '12px', color: '#6b7280', marginRight: '8px' }}>
                   {state.user.name}
