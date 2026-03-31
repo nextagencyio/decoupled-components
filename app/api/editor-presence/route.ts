@@ -13,9 +13,10 @@ export async function GET(request: Request) {
     return Response.json({ editors: [] })
   }
 
-  // Heartbeat — mark this session as still active
+  // Heartbeat
   touchSession(sessionId)
 
-  const others = getOtherEditors(session.nid, sessionId)
+  // Find other editors with different tokens on the same node
+  const others = getOtherEditors(session.nid, session.token)
   return Response.json({ editors: others })
 }

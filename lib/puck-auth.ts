@@ -29,13 +29,6 @@ const SESSION_LIFETIME_MS = 8 * 60 * 60 * 1000
 export const COOKIE_NAME = 'puck_session'
 
 export function createSession(uid: number, name: string, nid: number, token: string): string {
-  // Remove any stale sessions for this user+node (e.g., previous tab, old token)
-  for (const [id, session] of sessions) {
-    if (session.uid === uid && session.nid === nid) {
-      sessions.delete(id)
-    }
-  }
-
   const sessionId = crypto.randomBytes(32).toString('hex')
   const now = Date.now()
   sessions.set(sessionId, { uid, name, nid, token, createdAt: now, lastSeen: now })
@@ -76,17 +69,18 @@ export function getSessionFromRequest(request: Request): PuckSession | null {
 }
 
 /**
- * Get all other active sessions for a given node, excluding a specific session.
- * Only returns sessions that have heartbeated within the last 30 seconds.
+ * Get other editors on the same node — detected by different tokens.
+ * Same user opening the same link in two tabs won't trigger a warning.
+ * Only warns when a genuinely different editor session exists.
  */
 const PRESENCE_TIMEOUT_MS = 30_000
 
-export function getOtherEditors(nid: number, excludeSessionId: string): { uid: number; name: string }[] {
+export function getOtherEditors(nid: number, currentToken: string): { uid: number; name: string }[] {
   cleanupSessions()
   const now = Date.now()
-  const editors = new Map<number, string>() // uid → name (dedup by uid)
-  for (const [sessionId, session] of sessions) {
-    if (session.nid === nid && sessionId !== excludeSessionId) {
+  const editors = new Map<number, string>()
+  for (const [, session] of sessions) {
+    if (session.nid === nid && session.token !== currentToken) {
       if (now - session.lastSeen < PRESENCE_TIMEOUT_MS) {
         editors.set(session.uid, session.name)
       }
