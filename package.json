@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
+    "@puckeditor/cloud-client": "^0.6.0",
     "@puckeditor/core": "^0.21.1",
+    "@puckeditor/plugin-ai": "^0.6.0",
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.1.1",
     "dotenv": "^17.2.1",

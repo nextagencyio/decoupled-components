@@ -1,6 +1,68 @@
 # Decoupled Components
 
-Next.js frontend for Drupal with section-based landing pages and a visual editor (Puck).
+Next.js frontend for Drupal with section-based landing pages, a visual editor (Puck), and AI-powered page generation.
+
+## Quick Start
+
+```bash
+npm install
+npm run build && npm start   # Production mode (recommended for Puck)
+# OR
+npm run dev                  # Dev mode (HMR can cause memory issues with Puck)
+```
+
+Default port: 3000
+
+## Environment Variables
+
+```env
+# Drupal Backend (required)
+NEXT_PUBLIC_DRUPAL_BASE_URL=https://your-space.decoupled.website
+DRUPAL_CLIENT_ID=your-client-id
+DRUPAL_CLIENT_SECRET=your-client-secret
+DRUPAL_REVALIDATE_SECRET=your-random-secret
+
+# Write OAuth (for Puck editor save operations)
+DRUPAL_WRITE_CLIENT_ID=your-write-client-id
+DRUPAL_WRITE_CLIENT_SECRET=your-write-client-secret
+
+# Puck Cloud AI (for AI page generation in the editor)
+PUCK_API_KEY=your-puck-cloud-api-key
+
+# Optional
+NEXT_PUBLIC_DEMO_MODE=false
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud     # Image uploads
+NEXT_PUBLIC_CLOUDINARY_API_KEY=your-key
+CLOUDINARY_API_SECRET=your-secret
+UNSPLASH_ACCESS_KEY=your-key                      # Stock photos in AI
+```
+
+### Getting a Puck Cloud API Key
+
+1. Sign up at https://cloud.puckeditor.com/login
+2. Create a project in the dashboard
+3. Generate an API key
+4. Set `PUCK_API_KEY` in `.env.local`
+
+Pro plan is $25/month and includes $25 in AI credits (~80 page generations).
+
+### Local Development with Drupal
+
+For local Drupal at localhost:8888:
+```env
+NEXT_PUBLIC_DRUPAL_BASE_URL=http://localhost:8888
+DRUPAL_CLIENT_ID=local-frontend-client
+DRUPAL_CLIENT_SECRET=local-frontend-secret
+DRUPAL_WRITE_CLIENT_ID=local-write-client
+DRUPAL_WRITE_CLIENT_SECRET=local-write-secret
+DRUPAL_REVALIDATE_SECRET=local-dev-secret
+```
+
+Set the Puck editor URL in Drupal state:
+```bash
+docker exec drupal-web-local drush php-eval "\Drupal::state()->set('dc_puck.editor_url', 'http://localhost:3000');"
+docker exec drupal-web-local drush cr
+```
 
 ## Creating Content
 
@@ -88,9 +150,49 @@ All defined in `data/components-content.json`. The model array is the schema, th
 
 ## Architecture
 
-- `app/(site)/` — public pages rendered via GraphQL from Drupal
-- `app/(editor)/` — Puck visual editor (authenticated via Drupal token)
-- `data/components-content.json` — content model + sample content (imported to Drupal via MCP)
-- `lib/puck-config.tsx` — auto-generates Puck editor config from components-content.json
-- `lib/component-registry.tsx` — maps component names to React components
-- `app/components/paragraphs/` — React components for each paragraph type
+```
+app/(site)/                  Public pages (GraphQL from Drupal)
+app/(editor)/editor/[nid]/   Puck visual editor (Drupal token auth)
+app/api/
+  ├── drupal-puck/[...path]/ Puck load/save proxy to Drupal
+  ├── puck/[...all]/         Puck Cloud AI proxy (requires PUCK_API_KEY)
+  ├── auth/validate/         Token validation for editor access
+  ├── graphql/               GraphQL proxy with OAuth
+  ├── revalidate/            ISR revalidation webhook
+  └── upload/                Image upload proxy
+
+data/components-content.json Content model + sample content (single source of truth)
+lib/puck-config.tsx          Auto-generates Puck editor config from model
+lib/component-registry.tsx   Maps component names to React components
+app/components/paragraphs/   React components for each paragraph type (10)
+```
+
+## Puck AI Integration
+
+The editor uses the official `@puckeditor/plugin-ai` plugin with Puck Cloud as the AI backend.
+
+**How it works:**
+1. User types a prompt in the AI chat panel (e.g., "Create a hero section about coffee")
+2. Plugin sends the prompt + current page data + component config to `/api/puck/chat`
+3. The API route proxies to Puck Cloud via `puckHandler` from `@puckeditor/cloud-client`
+4. Puck Cloud generates/modifies the page using your component definitions
+5. The editor updates live with the AI-generated content
+
+**Supported actions:**
+- "Create a landing page about X" → generates a full page
+- "Add a pricing section" → appends to the existing page
+- "Rewrite the hero copy" → updates a specific section
+
+**Cost:** ~$0.30 per page generation, ~$0.15 per update. Tracked via `onFinish` callback.
+
+## Puck Editor Access
+
+The editor is accessed via Drupal's "Design Studio" tab on landing page nodes:
+
+1. Log into Drupal admin
+2. Navigate to a landing_page node
+3. Click the "Design Studio" tab
+4. Drupal generates a signed HMAC token and redirects to `/editor/{nid}?token=...`
+5. Next.js validates the token, creates a session, and loads the Puck editor
+
+The editor URL is stored in Drupal state at `dc_puck.editor_url`.

@@ -3,10 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Puck, type Data } from '@puckeditor/core'
 import { puckConfig } from '@/lib/puck-config'
-import { createAiChatPlugin } from 'puck-plugin-ai'
+import { createAiPlugin } from '@puckeditor/plugin-ai'
+import '@puckeditor/plugin-ai/styles.css'
 import { useParams, useSearchParams } from 'next/navigation'
 
-const aiPlugin = createAiChatPlugin()
+const aiPlugin = createAiPlugin()
 
 const PUCK_API = '/api/drupal-puck'
 const DRUPAL_BASE_URL = process.env.NEXT_PUBLIC_DRUPAL_BASE_URL || 'http://localhost:8888'
