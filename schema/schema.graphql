@@ -1,14 +1,9 @@
 type Query {
-  node(id: ID!, revision: ID): NodeUnion
-  term(id: ID!, revision: ID): TermUnion
   paragraph(id: ID!, revision: ID): ParagraphUnion
+  term(id: ID!, revision: ID): TermUnion
+  node(id: ID!, revision: ID): NodeUnion
   menu(name: MenuAvailable!): Menu
   info: SchemaInformation!
-  nodeArticles(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeArticleConnection!
-  nodeEvents(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeEventConnection!
-  nodeLandingPages(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeLandingPageConnection!
-  nodeTeamMembers(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeTeamMemberConnection!
-  termTags(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): TermTagConnection!
   paragraphAccordions(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphAccordionConnection!
   paragraphCards(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphCardConnection!
   paragraphCardGroups(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphCardGroupConnection!
@@ -26,131 +21,10 @@ type Query {
   paragraphStatItems(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphStatItemConnection!
   paragraphTestimonials(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphTestimonialConnection!
   paragraphTextBlocks(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphTextBlockConnection!
+  termTags(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): TermTagConnection!
+  nodeLandingPages(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeLandingPageConnection!
   preview(id: ID!, token: String, langcode: String): NodeUnion
   route(path: String!, revision: ID): RouteUnion
-}
-
-union NodeUnion = NodeArticle | NodeEvent | NodeLandingPage | NodeTeamMember
-
-type NodeArticle implements NodeInterface & EdgeNode {
-  id: ID!
-  uuid: ID!
-  author: String
-  body: TextSummary
-  category: String
-  changed: DateTime!
-  created: DateTime!
-  image: Image
-  langcode: Language!
-  path: String
-  promote: Boolean!
-  status: Boolean!
-  sticky: Boolean!
-  summary: Text
-  title: String!
-}
-
-interface NodeInterface {
-  id: ID!
-  uuid: ID!
-  changed: DateTime!
-  created: DateTime!
-  langcode: Language!
-  path: String
-  promote: Boolean!
-  status: Boolean!
-  sticky: Boolean!
-  title: String!
-}
-
-type DateTime {
-  timestamp: Timestamp!
-  timezone: TimeZone!
-  offset: UtcOffset!
-  time: Time!
-}
-
-type Language {
-  id: ID
-  name: String
-  direction: String
-}
-
-interface EdgeNode {
-  id: ID!
-}
-
-type TextSummary {
-  value: String
-  processed: Html
-  format: String
-  summary: Html
-}
-
-type Image {
-  url: String!
-  width: Int!
-  height: Int!
-  alt: String
-  title: String
-  size: Int!
-  mime: String
-  variations(styles: [ImageStyleAvailable]): [ImageStyleDerivative!]
-}
-
-enum ImageStyleAvailable {
-  LARGE
-  MEDIA_LIBRARY
-  MEDIUM
-  THUMBNAIL
-  WIDE
-}
-
-type ImageStyleDerivative {
-  name: String!
-  url: String!
-  width: Int!
-  height: Int!
-}
-
-type Text {
-  value: String
-  processed: Html
-  format: String
-}
-
-type NodeEvent implements NodeInterface & EdgeNode {
-  id: ID!
-  uuid: ID!
-  changed: DateTime!
-  created: DateTime!
-  date: DateTime
-  description: Text
-  endDate: DateTime
-  eventType: String
-  image: Image
-  langcode: Language!
-  location: String
-  path: String
-  promote: Boolean!
-  registrationUrl: String
-  status: Boolean!
-  sticky: Boolean!
-  title: String!
-}
-
-type NodeLandingPage implements NodeInterface & EdgeNode {
-  id: ID!
-  uuid: ID!
-  changed: DateTime!
-  created: DateTime!
-  langcode: Language!
-  path: String
-  promote: Boolean!
-  sections: [ParagraphUnion!]
-  status: Boolean!
-  sticky: Boolean!
-  title: String!
 }
 
 union ParagraphUnion = ParagraphAccordion | ParagraphCard | ParagraphCardGroup | ParagraphFaqItem | ParagraphFeatureItem | ParagraphHero | ParagraphLogo | ParagraphLogoCollection | ParagraphNewsletter | ParagraphPricing | ParagraphPricingTier | ParagraphQuote | ParagraphSidebyside | ParagraphStat | ParagraphStatItem | ParagraphTestimonial | ParagraphTextBlock
@@ -173,6 +47,29 @@ interface ParagraphInterface {
   created: DateTime!
   langcode: Language!
   status: Boolean!
+}
+
+type DateTime {
+  timestamp: Timestamp!
+  timezone: TimeZone!
+  offset: UtcOffset!
+  time: Time!
+}
+
+type Language {
+  id: ID
+  name: String
+  direction: String
+}
+
+interface EdgeNode {
+  id: ID!
+}
+
+type Text {
+  value: String
+  processed: Html
+  format: String
 }
 
 type ParagraphCard implements ParagraphInterface & EdgeNode {
@@ -238,6 +135,32 @@ type ParagraphHero implements ParagraphInterface & EdgeNode {
   status: Boolean!
   subtitle: Text
   title: String
+}
+
+type Image {
+  url: String!
+  width: Int!
+  height: Int!
+  alt: String
+  title: String
+  size: Int!
+  mime: String
+  variations(styles: [ImageStyleAvailable]): [ImageStyleDerivative!]
+}
+
+enum ImageStyleAvailable {
+  LARGE
+  MEDIA_LIBRARY
+  MEDIUM
+  WIDE
+  THUMBNAIL
+}
+
+type ImageStyleDerivative {
+  name: String!
+  url: String!
+  width: Int!
+  height: Int!
 }
 
 type ParagraphLogo implements ParagraphInterface & EdgeNode {
@@ -383,24 +306,6 @@ type ParagraphTextBlock implements ParagraphInterface & EdgeNode {
   title: String
 }
 
-type NodeTeamMember implements NodeInterface & EdgeNode {
-  id: ID!
-  uuid: ID!
-  bio: Text
-  changed: DateTime!
-  created: DateTime!
-  department: String
-  image: Image
-  langcode: Language!
-  linkedinUrl: String
-  path: String
-  promote: Boolean!
-  role: String
-  status: Boolean!
-  sticky: Boolean!
-  title: String!
-}
-
 union TermUnion = TermTag
 
 type TermTag implements TermInterface & EdgeNode {
@@ -427,6 +332,35 @@ interface TermInterface {
   path: String
   status: Boolean!
   weight: Int!
+}
+
+union NodeUnion = NodeLandingPage
+
+type NodeLandingPage implements NodeInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  created: DateTime!
+  langcode: Language!
+  path: String
+  promote: Boolean!
+  sections: [ParagraphUnion!]
+  status: Boolean!
+  sticky: Boolean!
+  title: String!
+}
+
+interface NodeInterface {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  created: DateTime!
+  langcode: Language!
+  path: String
+  promote: Boolean!
+  status: Boolean!
+  sticky: Boolean!
+  title: String!
 }
 
 enum MenuAvailable {
@@ -484,7 +418,7 @@ type Link {
   internal: Boolean!
 }
 
-union RouteEntityUnion = NodeArticle | NodeEvent | NodeLandingPage | NodeTeamMember
+union RouteEntityUnion = NodeLandingPage
 
 type RouteExternal implements Route {
   url: String!
@@ -508,9 +442,9 @@ enum ConnectionSortKeys {
   WEIGHT
 }
 
-type NodeArticleConnection implements Connection {
-  edges: [NodeArticleEdge!]!
-  nodes: [NodeArticle!]!
+type ParagraphAccordionConnection implements Connection {
+  edges: [ParagraphAccordionEdge!]!
+  nodes: [ParagraphAccordion!]!
   pageInfo: ConnectionPageInfo!
 }
 
@@ -530,61 +464,6 @@ type ConnectionPageInfo {
   hasPreviousPage: Boolean!
   startCursor: Cursor
   endCursor: Cursor
-}
-
-type NodeArticleEdge implements Edge {
-  cursor: Cursor!
-  node: NodeArticle!
-}
-
-type NodeEventConnection implements Connection {
-  edges: [NodeEventEdge!]!
-  nodes: [NodeEvent!]!
-  pageInfo: ConnectionPageInfo!
-}
-
-type NodeEventEdge implements Edge {
-  cursor: Cursor!
-  node: NodeEvent!
-}
-
-type NodeLandingPageConnection implements Connection {
-  edges: [NodeLandingPageEdge!]!
-  nodes: [NodeLandingPage!]!
-  pageInfo: ConnectionPageInfo!
-}
-
-type NodeLandingPageEdge implements Edge {
-  cursor: Cursor!
-  node: NodeLandingPage!
-}
-
-type NodeTeamMemberConnection implements Connection {
-  edges: [NodeTeamMemberEdge!]!
-  nodes: [NodeTeamMember!]!
-  pageInfo: ConnectionPageInfo!
-}
-
-type NodeTeamMemberEdge implements Edge {
-  cursor: Cursor!
-  node: NodeTeamMember!
-}
-
-type TermTagConnection implements Connection {
-  edges: [TermTagEdge!]!
-  nodes: [TermTag!]!
-  pageInfo: ConnectionPageInfo!
-}
-
-type TermTagEdge implements Edge {
-  cursor: Cursor!
-  node: TermTag!
-}
-
-type ParagraphAccordionConnection implements Connection {
-  edges: [ParagraphAccordionEdge!]!
-  nodes: [ParagraphAccordion!]!
-  pageInfo: ConnectionPageInfo!
 }
 
 type ParagraphAccordionEdge implements Edge {
@@ -768,6 +647,28 @@ type ParagraphTextBlockEdge implements Edge {
   node: ParagraphTextBlock!
 }
 
+type TermTagConnection implements Connection {
+  edges: [TermTagEdge!]!
+  nodes: [TermTag!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type TermTagEdge implements Edge {
+  cursor: Cursor!
+  node: TermTag!
+}
+
+type NodeLandingPageConnection implements Connection {
+  edges: [NodeLandingPageEdge!]!
+  nodes: [NodeLandingPage!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type NodeLandingPageEdge implements Edge {
+  cursor: Cursor!
+  node: NodeLandingPage!
+}
+
 type Mutation {
   _: Boolean!
 }
@@ -811,6 +712,13 @@ union MenuUnion = Menu
 enum SortDirection {
   ASC
   DESC
+}
+
+type TextSummary {
+  value: String
+  processed: Html
+  format: String
+  summary: Html
 }
 
 type UnsupportedType {

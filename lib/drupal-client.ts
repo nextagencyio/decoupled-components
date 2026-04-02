@@ -3,9 +3,15 @@
  *
  * Demo mode: reads from data/mock/ JSON files
  * Live mode: queries Drupal GraphQL with OAuth via decoupled-client
+ *
+ * Uses the generated typed client for getEntries/getEntry (auto-generated
+ * queries from schema introspection), but overrides getEntryByPath with
+ * the hand-crafted landing page query (the generated ROUTE_QUERY is too
+ * large for deeply nested paragraph unions).
  */
 
 import { createClient } from 'decoupled-client'
+import { createTypedClient } from '@/schema/client'
 import type { TypedClient } from '@/schema/client'
 import { isDemoMode } from './demo-mode'
 import { createMockClient } from './mock-client'
@@ -35,30 +41,15 @@ function getLiveClient(): TypedClient {
       } as RequestInit)) as typeof globalThis.fetch,
   })
 
+  // Use the generated typed client for getEntries/getEntry
+  const typed = createTypedClient(base)
+
+  // Override getEntryByPath to use the hand-crafted landing page query
+  // (the generated ROUTE_QUERY is too large for nested paragraph unions)
   _liveClient = {
-    async getEntries(type, options) {
-      if (type === 'NodeLandingPage') {
-        const data = await base.query(`
-          query { nodeLandingPages(first: ${options?.first ?? 10}) { nodes { id title path } } }
-        `)
-        return (data as any).nodeLandingPages?.nodes ?? []
-      }
-      return []
-    },
-
-    async getEntry(type, id) {
-      const data = await base.query(`
-        query { node(id: "${id}") { __typename ... on NodeLandingPage { id title path } } }
-      `)
-      return (data as any).node ?? null
-    },
-
+    ...typed,
     async getEntryByPath(path) {
       return base.queryByPath(path, GET_LANDING_PAGE)
-    },
-
-    async raw(query, variables) {
-      return base.query(query, variables)
     },
   }
 

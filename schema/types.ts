@@ -1,37 +1,6 @@
 // Auto-generated TypeScript types from Drupal GraphQL schema.
 // Run `decoupled-cli schema sync` to regenerate.
 
-export interface NodeArticle {
-  id: string;
-  author: string;
-  body: { value: string; summary?: string };
-  category: string;
-  image: { url: string; alt: string; width: number; height: number };
-  path: string;
-  summary: { value: string };
-  title: string;
-}
-
-export interface NodeEvent {
-  id: string;
-  date: { time: string };
-  description: { value: string };
-  endDate: { time: string };
-  eventType: string;
-  image: { url: string; alt: string; width: number; height: number };
-  location: string;
-  path: string;
-  registrationUrl: string;
-  title: string;
-}
-
-export interface NodeLandingPage {
-  id: string;
-  path: string;
-  sections: any[];
-  title: string;
-}
-
 export interface ParagraphAccordion {
   id: string;
   eyebrow: string;
@@ -184,13 +153,9 @@ export interface ParagraphTextBlock {
   title: string;
 }
 
-export interface NodeTeamMember {
+export interface NodeLandingPage {
   id: string;
-  bio: { value: string };
-  department: string;
-  image: { url: string; alt: string; width: number; height: number };
-  linkedinUrl: string;
   path: string;
-  role: string;
+  sections: any[];
   title: string;
 }
