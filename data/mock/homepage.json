@@ -12,9 +12,9 @@
       "layout": "centered",
       "backgroundColor": "gradient",
       "primaryCtaText": "Get Started Free",
-      "primaryCtaUrl": "/showcase",
+      "primaryCtaUrl": "/about",
       "secondaryCtaText": "Book a Demo",
-      "secondaryCtaUrl": "/showcase"
+      "secondaryCtaUrl": "/about"
     },
     {
       "__typename": "ParagraphLogoCollection",
