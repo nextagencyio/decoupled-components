@@ -1,44 +1,44 @@
 /**
- * Mock client implementing the same TypedClient interface as the real
- * Drupal client. Reads from local JSON files in data/mock/.
- *
- * Pages use the same code regardless of data source:
- *   const client = getClient()  // returns mock or real based on env
+ * Mock client implementing TypedClient for demo mode.
+ * Reads from local JSON files — same interface as the live Drupal client.
  */
 
-import type { TypedClient, ContentTypeName, ContentTypeMap, ContentNode } from '@/schema/client'
+import type { TypedClient, ContentTypeName, ContentTypeMap, ContentNode, NodeLandingPage } from '@/schema/client'
 import pagesData from '@/data/mock/pages.json'
 import homepageData from '@/data/mock/homepage.json'
 
-// Combine all mock pages into a single lookup
-const allPages = [
-  { ...homepageData, path: '/' },
-  ...(pagesData.pages || []),
-] as any[]
+const allPages: NodeLandingPage[] = [
+  { ...homepageData, path: '/', __typename: 'NodeLandingPage', created: { timestamp: 0 }, changed: { timestamp: 0 } } as NodeLandingPage,
+  ...(pagesData.pages || []).map(p => ({
+    ...p,
+    __typename: 'NodeLandingPage' as const,
+    created: { timestamp: 0 },
+    changed: { timestamp: 0 },
+  })) as NodeLandingPage[],
+]
 
 export function createMockClient(): TypedClient {
   return {
-    async getEntries(type, options) {
-      // Mock only supports landing pages for now
+    async getEntries<K extends ContentTypeName>(type: K, options?: { first?: number }): Promise<ContentTypeMap[K][]> {
       if (type === 'NodeLandingPage') {
         const limit = options?.first ?? 10
-        return allPages.slice(0, limit) as any
+        return allPages.slice(0, limit) as ContentTypeMap[K][]
       }
       return []
     },
 
-    async getEntry(type, id) {
+    async getEntry<K extends ContentTypeName>(type: K, id: string): Promise<ContentTypeMap[K] | null> {
       if (type === 'NodeLandingPage') {
-        return allPages.find((p: any) => p.id === id) ?? null
+        return (allPages.find(p => p.id === id) ?? null) as ContentTypeMap[K] | null
       }
       return null
     },
 
-    async getEntryByPath(path) {
-      return allPages.find((p: any) => p.path === path) ?? null
+    async getEntryByPath(path: string): Promise<ContentNode | null> {
+      return allPages.find(p => p.path === path) ?? null
     },
 
-    async raw() {
+    async raw(): Promise<never> {
       throw new Error('raw() is not available in demo mode')
     },
   }

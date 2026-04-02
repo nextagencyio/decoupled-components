@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { ParagraphList } from '@/app/components/paragraphs/ParagraphRenderer'
 import { getClient } from '@/lib/drupal-client'
 import { transformSections } from '@/lib/drupal-utils'
+import type { NodeLandingPage } from '@/schema/client'
 
 interface PageProps {
   params: Promise<{ slug: string[] }>
@@ -16,10 +17,10 @@ export default async function DynamicPage({ params }: PageProps) {
   const client = getClient()
 
   try {
-    const page = await client.getEntryByPath(path)
-    if (!page || !('sections' in page)) notFound()
+    const page = await client.getEntryByPath(path) as NodeLandingPage | null
+    if (!page?.sections) notFound()
 
-    const sections = transformSections((page as any).sections || [])
+    const sections = transformSections(page.sections)
     return <ParagraphList sections={sections} />
   } catch {
     notFound()

@@ -1,13 +1,5 @@
 /**
  * Unified Drupal client — same TypedClient interface for demo and live mode.
- *
- * Demo mode: reads from data/mock/ JSON files
- * Live mode: queries Drupal GraphQL with OAuth via decoupled-client
- *
- * Uses the generated typed client for getEntries/getEntry (auto-generated
- * queries from schema introspection), but overrides getEntryByPath with
- * the hand-crafted landing page query (the generated ROUTE_QUERY is too
- * large for deeply nested paragraph unions).
  */
 
 import { createClient } from 'decoupled-client'
@@ -34,18 +26,17 @@ function getLiveClient(): TypedClient {
     baseUrl,
     clientId,
     clientSecret,
-    fetch: ((url: any, options?: any) =>
-      globalThis.fetch(url, {
-        ...options,
+    fetch: ((input: RequestInfo | URL, init?: RequestInit) =>
+      globalThis.fetch(input, {
+        ...init,
         next: { tags: ['drupal'] },
       } as RequestInit)) as typeof globalThis.fetch,
   })
 
-  // Use the generated typed client for getEntries/getEntry
   const typed = createTypedClient(base)
 
-  // Override getEntryByPath to use the hand-crafted landing page query
-  // (the generated ROUTE_QUERY is too large for nested paragraph unions)
+  // Override getEntryByPath with hand-crafted query
+  // (generated ROUTE_QUERY is too large for nested paragraph unions)
   _liveClient = {
     ...typed,
     async getEntryByPath(path) {
