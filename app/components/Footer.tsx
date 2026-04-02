@@ -5,25 +5,11 @@ const footerLinks = {
   product: [
     { name: 'Features', href: '/#features' },
     { name: 'Pricing', href: '/#pricing' },
-    { name: 'Integrations', href: '/showcase' },
-    { name: 'Changelog', href: '/showcase' },
-  ],
-  company: [
     { name: 'About', href: '/about' },
-    { name: 'Blog', href: '/showcase' },
-    { name: 'Careers', href: '/showcase' },
-    { name: 'Contact', href: '/contact' },
   ],
   resources: [
-    { name: 'Documentation', href: '/showcase' },
-    { name: 'API Reference', href: '/showcase' },
-    { name: 'Showcase', href: '/showcase' },
-    { name: 'Support', href: '/showcase' },
-  ],
-  legal: [
-    { name: 'Privacy', href: '/showcase' },
-    { name: 'Terms', href: '/showcase' },
-    { name: 'Security', href: '/showcase' },
+    { name: 'Documentation', href: 'https://decoupled.io/docs' },
+    { name: 'GitHub', href: 'https://github.com/nextagencyio' },
   ],
 }
 
@@ -71,29 +57,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.product.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">Company</h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
+                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.name}</Link>
                 </li>
               ))}
             </ul>
@@ -105,29 +69,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h3 className="font-semibold text-white mb-4">Legal</h3>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm hover:text-white transition-colors"
-                  >
-                    {link.name}
-                  </Link>
+                  <a href={link.href} className="text-sm hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">{link.name}</a>
                 </li>
               ))}
             </ul>
