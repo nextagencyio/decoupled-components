@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client'
+
 
 // Fragment for all paragraph types
-const PARAGRAPH_FRAGMENTS = gql`
+const PARAGRAPH_FRAGMENTS = `
   fragment HeroFields on ParagraphHero {
     id
     eyebrow
@@ -198,7 +198,7 @@ const PARAGRAPH_FRAGMENTS = gql`
   }
 `
 
-export const GET_LANDING_PAGE = gql`
+export const GET_LANDING_PAGE = `
   ${PARAGRAPH_FRAGMENTS}
 
   query GetLandingPage($path: String!) {
@@ -249,7 +249,7 @@ export const GET_LANDING_PAGE = gql`
   }
 `
 
-export const GET_ALL_LANDING_PAGES = gql`
+export const GET_ALL_LANDING_PAGES = `
   query GetAllLandingPages {
     nodeLandingPages(first: 100) {
       nodes {

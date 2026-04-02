@@ -2,19 +2,16 @@ export const dynamic = 'force-dynamic'
 
 import { ParagraphList } from '@/app/components/paragraphs/ParagraphRenderer'
 import SetupGuide from '@/app/components/SetupGuide'
-import { isDemoMode } from '@/lib/demo-mode'
 import { getClient } from '@/lib/drupal-client'
 import { transformSections } from '@/lib/drupal-utils'
 
 export default async function HomePage() {
-  // In demo mode without Drupal, still works via mock client
-  if (!isDemoMode() && !process.env.NEXT_PUBLIC_DRUPAL_BASE_URL) {
+  if (!process.env.NEXT_PUBLIC_DRUPAL_BASE_URL && process.env.NEXT_PUBLIC_DEMO_MODE === 'false') {
     return <SetupGuide />
   }
 
   const client = getClient()
 
-  // Try common homepage paths
   for (const path of ['/', '/node/1']) {
     try {
       const page = await client.getEntryByPath(path)

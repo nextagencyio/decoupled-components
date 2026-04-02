@@ -1,25 +1,17 @@
 /**
- * Unified Drupal client — returns a TypedClient-compatible interface
- * for both demo mode and live mode.
+ * Unified Drupal client — same TypedClient interface for demo and live mode.
  *
- * Uses the hand-crafted queries from lib/queries.ts (not the generated
- * ROUTE_QUERY which is too large for deeply nested paragraph unions).
+ * Demo mode: reads from data/mock/ JSON files
+ * Live mode: queries Drupal GraphQL with OAuth via decoupled-client
  */
 
-import { createClient, type DecoupledClient } from 'decoupled-client'
+import { createClient } from 'decoupled-client'
 import type { TypedClient } from '@/schema/client'
 import { isDemoMode } from './demo-mode'
 import { createMockClient } from './mock-client'
 import { GET_LANDING_PAGE } from './queries'
 
 let _liveClient: TypedClient | null = null
-
-// Extract the query string from the gql tagged template
-function extractQuery(gqlResult: any): string {
-  if (typeof gqlResult === 'string') return gqlResult
-  // Apollo's gql returns a DocumentNode — extract the query string from loc.source.body
-  return gqlResult?.loc?.source?.body || ''
-}
 
 function getLiveClient(): TypedClient {
   if (_liveClient) return _liveClient
@@ -43,11 +35,8 @@ function getLiveClient(): TypedClient {
       } as RequestInit)) as typeof globalThis.fetch,
   })
 
-  const landingPageQuery = extractQuery(GET_LANDING_PAGE)
-
   _liveClient = {
     async getEntries(type, options) {
-      // For now, only landing pages are supported via the hand-crafted queries
       if (type === 'NodeLandingPage') {
         const data = await base.query(`
           query { nodeLandingPages(first: ${options?.first ?? 10}) { nodes { id title path } } }
@@ -58,12 +47,14 @@ function getLiveClient(): TypedClient {
     },
 
     async getEntry(type, id) {
-      const data = await base.query(`query { node(id: "${id}") { __typename ... on NodeLandingPage { id title path } } }`)
+      const data = await base.query(`
+        query { node(id: "${id}") { __typename ... on NodeLandingPage { id title path } } }
+      `)
       return (data as any).node ?? null
     },
 
     async getEntryByPath(path) {
-      return base.queryByPath(path, landingPageQuery)
+      return base.queryByPath(path, GET_LANDING_PAGE)
     },
 
     async raw(query, variables) {
