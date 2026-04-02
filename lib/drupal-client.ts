@@ -1,17 +1,25 @@
 /**
- * Unified Drupal client — returns a TypedClient for both demo and live mode.
+ * Unified Drupal client — returns a TypedClient-compatible interface
+ * for both demo mode and live mode.
  *
- * Demo mode: reads from data/mock/ JSON files
- * Live mode: queries Drupal GraphQL with OAuth via decoupled-client
+ * Uses the hand-crafted queries from lib/queries.ts (not the generated
+ * ROUTE_QUERY which is too large for deeply nested paragraph unions).
  */
 
-import { createClient } from 'decoupled-client'
-import { createTypedClient } from '@/schema/client'
+import { createClient, type DecoupledClient } from 'decoupled-client'
 import type { TypedClient } from '@/schema/client'
 import { isDemoMode } from './demo-mode'
 import { createMockClient } from './mock-client'
+import { GET_LANDING_PAGE } from './queries'
 
 let _liveClient: TypedClient | null = null
+
+// Extract the query string from the gql tagged template
+function extractQuery(gqlResult: any): string {
+  if (typeof gqlResult === 'string') return gqlResult
+  // Apollo's gql returns a DocumentNode — extract the query string from loc.source.body
+  return gqlResult?.loc?.source?.body || ''
+}
 
 function getLiveClient(): TypedClient {
   if (_liveClient) return _liveClient
@@ -21,7 +29,7 @@ function getLiveClient(): TypedClient {
   const clientSecret = process.env.DRUPAL_CLIENT_SECRET
 
   if (!baseUrl || !clientId || !clientSecret) {
-    throw new Error('Missing Drupal credentials. Set NEXT_PUBLIC_DRUPAL_BASE_URL, DRUPAL_CLIENT_ID, and DRUPAL_CLIENT_SECRET.')
+    throw new Error('Missing Drupal credentials.')
   }
 
   const base = createClient({
@@ -35,14 +43,37 @@ function getLiveClient(): TypedClient {
       } as RequestInit)) as typeof globalThis.fetch,
   })
 
-  _liveClient = createTypedClient(base)
+  const landingPageQuery = extractQuery(GET_LANDING_PAGE)
+
+  _liveClient = {
+    async getEntries(type, options) {
+      // For now, only landing pages are supported via the hand-crafted queries
+      if (type === 'NodeLandingPage') {
+        const data = await base.query(`
+          query { nodeLandingPages(first: ${options?.first ?? 10}) { nodes { id title path } } }
+        `)
+        return (data as any).nodeLandingPages?.nodes ?? []
+      }
+      return []
+    },
+
+    async getEntry(type, id) {
+      const data = await base.query(`query { node(id: "${id}") { __typename ... on NodeLandingPage { id title path } } }`)
+      return (data as any).node ?? null
+    },
+
+    async getEntryByPath(path) {
+      return base.queryByPath(path, landingPageQuery)
+    },
+
+    async raw(query, variables) {
+      return base.query(query, variables)
+    },
+  }
+
   return _liveClient
 }
 
-/**
- * Get the appropriate client based on the current mode.
- * Same interface regardless of data source.
- */
 export function getClient(): TypedClient {
   if (isDemoMode()) {
     return createMockClient()

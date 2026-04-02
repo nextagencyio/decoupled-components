@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { ParagraphList } from '@/app/components/paragraphs/ParagraphRenderer'
 import SetupGuide from '@/app/components/SetupGuide'
 import { isDemoMode } from '@/lib/demo-mode'
