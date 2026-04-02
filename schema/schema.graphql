@@ -1,0 +1,818 @@
+type Query {
+  node(id: ID!, revision: ID): NodeUnion
+  term(id: ID!, revision: ID): TermUnion
+  paragraph(id: ID!, revision: ID): ParagraphUnion
+  menu(name: MenuAvailable!): Menu
+  info: SchemaInformation!
+  nodeArticles(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeArticleConnection!
+  nodeEvents(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeEventConnection!
+  nodeLandingPages(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeLandingPageConnection!
+  nodeTeamMembers(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): NodeTeamMemberConnection!
+  termTags(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): TermTagConnection!
+  paragraphAccordions(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphAccordionConnection!
+  paragraphCards(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphCardConnection!
+  paragraphCardGroups(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphCardGroupConnection!
+  paragraphFaqItems(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphFaqItemConnection!
+  paragraphFeatureItems(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphFeatureItemConnection!
+  paragraphHeroes(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphHeroConnection!
+  paragraphLogos(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphLogoConnection!
+  paragraphLogoCollections(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphLogoCollectionConnection!
+  paragraphNewsletters(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphNewsletterConnection!
+  paragraphPricings(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphPricingConnection!
+  paragraphPricingTiers(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphPricingTierConnection!
+  paragraphQuotes(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphQuoteConnection!
+  paragraphSidebysides(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphSidebysideConnection!
+  paragraphStats(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphStatConnection!
+  paragraphStatItems(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphStatItemConnection!
+  paragraphTestimonials(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphTestimonialConnection!
+  paragraphTextBlocks(after: Cursor, before: Cursor, first: Int, last: Int, reverse: Boolean, sortKey: ConnectionSortKeys): ParagraphTextBlockConnection!
+  preview(id: ID!, token: String, langcode: String): NodeUnion
+  route(path: String!, revision: ID): RouteUnion
+}
+
+union NodeUnion = NodeArticle | NodeEvent | NodeLandingPage | NodeTeamMember
+
+type NodeArticle implements NodeInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  author: String
+  body: TextSummary
+  category: String
+  changed: DateTime!
+  created: DateTime!
+  image: Image
+  langcode: Language!
+  path: String
+  promote: Boolean!
+  status: Boolean!
+  sticky: Boolean!
+  summary: Text
+  title: String!
+}
+
+interface NodeInterface {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  created: DateTime!
+  langcode: Language!
+  path: String
+  promote: Boolean!
+  status: Boolean!
+  sticky: Boolean!
+  title: String!
+}
+
+type DateTime {
+  timestamp: Timestamp!
+  timezone: TimeZone!
+  offset: UtcOffset!
+  time: Time!
+}
+
+type Language {
+  id: ID
+  name: String
+  direction: String
+}
+
+interface EdgeNode {
+  id: ID!
+}
+
+type TextSummary {
+  value: String
+  processed: Html
+  format: String
+  summary: Html
+}
+
+type Image {
+  url: String!
+  width: Int!
+  height: Int!
+  alt: String
+  title: String
+  size: Int!
+  mime: String
+  variations(styles: [ImageStyleAvailable]): [ImageStyleDerivative!]
+}
+
+enum ImageStyleAvailable {
+  LARGE
+  MEDIA_LIBRARY
+  MEDIUM
+  THUMBNAIL
+  WIDE
+}
+
+type ImageStyleDerivative {
+  name: String!
+  url: String!
+  width: Int!
+  height: Int!
+}
+
+type Text {
+  value: String
+  processed: Html
+  format: String
+}
+
+type NodeEvent implements NodeInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  created: DateTime!
+  date: DateTime
+  description: Text
+  endDate: DateTime
+  eventType: String
+  image: Image
+  langcode: Language!
+  location: String
+  path: String
+  promote: Boolean!
+  registrationUrl: String
+  status: Boolean!
+  sticky: Boolean!
+  title: String!
+}
+
+type NodeLandingPage implements NodeInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  created: DateTime!
+  langcode: Language!
+  path: String
+  promote: Boolean!
+  sections: [ParagraphUnion!]
+  status: Boolean!
+  sticky: Boolean!
+  title: String!
+}
+
+union ParagraphUnion = ParagraphAccordion | ParagraphCard | ParagraphCardGroup | ParagraphFaqItem | ParagraphFeatureItem | ParagraphHero | ParagraphLogo | ParagraphLogoCollection | ParagraphNewsletter | ParagraphPricing | ParagraphPricingTier | ParagraphQuote | ParagraphSidebyside | ParagraphStat | ParagraphStatItem | ParagraphTestimonial | ParagraphTextBlock
+
+type ParagraphAccordion implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  eyebrow: String
+  items: [ParagraphUnion!]
+  langcode: Language!
+  status: Boolean!
+  subtitle: Text
+  title: String
+}
+
+interface ParagraphInterface {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  langcode: Language!
+  status: Boolean!
+}
+
+type ParagraphCard implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  description: Text
+  icon: String
+  langcode: Language!
+  linkText: String
+  linkUrl: String
+  status: Boolean!
+  title: String
+}
+
+type ParagraphCardGroup implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  cards: [ParagraphUnion!]
+  columns: String
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  status: Boolean!
+  subtitle: Text
+  title: String
+}
+
+type ParagraphFaqItem implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  answer: Text
+  created: DateTime!
+  langcode: Language!
+  question: String
+  status: Boolean!
+}
+
+type ParagraphFeatureItem implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  description: Text
+  icon: String
+  langcode: Language!
+  status: Boolean!
+  title: String
+}
+
+type ParagraphHero implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  backgroundColor: String
+  backgroundImage: Image
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  layout: String
+  primaryCtaText: String
+  primaryCtaUrl: String
+  secondaryCtaText: String
+  secondaryCtaUrl: String
+  status: Boolean!
+  subtitle: Text
+  title: String
+}
+
+type ParagraphLogo implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  image: Image
+  langcode: Language!
+  name: String
+  status: Boolean!
+  url: String
+}
+
+type ParagraphLogoCollection implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  logos: [ParagraphUnion!]
+  status: Boolean!
+  title: String
+}
+
+type ParagraphNewsletter implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  backgroundColor: String
+  buttonText: String
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  placeholder: String
+  status: Boolean!
+  subtitle: Text
+  title: String
+}
+
+type ParagraphPricing implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  status: Boolean!
+  subtitle: Text
+  tiers: [ParagraphUnion!]
+  title: String
+}
+
+type ParagraphPricingTier implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  billingPeriod: String
+  created: DateTime!
+  ctaText: String
+  ctaUrl: String
+  description: Text
+  features: [ParagraphUnion!]
+  isFeatured: Boolean
+  langcode: Language!
+  name: String
+  price: String
+  status: Boolean!
+}
+
+type ParagraphQuote implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  layout: String
+  status: Boolean!
+  testimonials: [ParagraphUnion!]
+  title: String
+}
+
+type ParagraphSidebyside implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  content: Text
+  created: DateTime!
+  ctaText: String
+  ctaUrl: String
+  eyebrow: String
+  features: [ParagraphUnion!]
+  image: Image
+  imagePosition: String
+  langcode: Language!
+  status: Boolean!
+  title: String
+}
+
+type ParagraphStat implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  backgroundColor: String
+  created: DateTime!
+  eyebrow: String
+  langcode: Language!
+  stats: [ParagraphUnion!]
+  status: Boolean!
+  title: String
+}
+
+type ParagraphStatItem implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  created: DateTime!
+  description: Text
+  label: String
+  langcode: Language!
+  status: Boolean!
+  value: String
+}
+
+type ParagraphTestimonial implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  authorCompany: String
+  authorImage: Image
+  authorName: String
+  authorTitle: String
+  created: DateTime!
+  langcode: Language!
+  quote: Text
+  rating: String
+  status: Boolean!
+}
+
+type ParagraphTextBlock implements ParagraphInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  alignment: String
+  content: Text
+  created: DateTime!
+  ctaText: String
+  ctaUrl: String
+  eyebrow: String
+  langcode: Language!
+  status: Boolean!
+  title: String
+}
+
+type NodeTeamMember implements NodeInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  bio: Text
+  changed: DateTime!
+  created: DateTime!
+  department: String
+  image: Image
+  langcode: Language!
+  linkedinUrl: String
+  path: String
+  promote: Boolean!
+  role: String
+  status: Boolean!
+  sticky: Boolean!
+  title: String!
+}
+
+union TermUnion = TermTag
+
+type TermTag implements TermInterface & EdgeNode {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  description: Text!
+  langcode: Language!
+  name: String!
+  parent: TermUnion
+  path: String
+  status: Boolean!
+  weight: Int!
+}
+
+interface TermInterface {
+  id: ID!
+  uuid: ID!
+  changed: DateTime!
+  description: Text!
+  langcode: Language!
+  name: String!
+  parent: TermUnion
+  path: String
+  status: Boolean!
+  weight: Int!
+}
+
+enum MenuAvailable {
+  MAIN
+}
+
+type Menu implements MenuInterface {
+  id: ID!
+  uuid: ID!
+  items: [MenuItem!]!
+  name: String!
+}
+
+interface MenuInterface {
+  id: ID!
+  uuid: ID!
+  items: [MenuItem!]!
+  name: String!
+}
+
+type MenuItem {
+  id: ID!
+  title: String!
+  description: String
+  url: String
+  langcode: Language!
+  internal: Boolean!
+  expanded: Boolean!
+  attributes: MenuItemAttributes!
+  children: [MenuItem!]!
+  route: RouteUnion
+}
+
+type MenuItemAttributes {
+  class: String
+}
+
+union RouteUnion = RouteInternal | RouteExternal
+
+type RouteInternal implements Route {
+  url: String!
+  internal: Boolean!
+  breadcrumbs: [Link!]
+  entity: RouteEntityUnion
+}
+
+interface Route {
+  url: String!
+  internal: Boolean!
+}
+
+type Link {
+  title: String
+  url: String
+  internal: Boolean!
+}
+
+union RouteEntityUnion = NodeArticle | NodeEvent | NodeLandingPage | NodeTeamMember
+
+type RouteExternal implements Route {
+  url: String!
+  internal: Boolean!
+}
+
+type SchemaInformation {
+  description: String
+  home: String
+  name: String
+  slogan: String
+  version: String
+}
+
+enum ConnectionSortKeys {
+  CREATED_AT
+  UPDATED_AT
+  TITLE
+  STICKY
+  PROMOTED
+  WEIGHT
+}
+
+type NodeArticleConnection implements Connection {
+  edges: [NodeArticleEdge!]!
+  nodes: [NodeArticle!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+interface Connection {
+  edges: [Edge!]!
+  nodes: [EdgeNode!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+interface Edge {
+  cursor: Cursor!
+  node: EdgeNode!
+}
+
+type ConnectionPageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
+}
+
+type NodeArticleEdge implements Edge {
+  cursor: Cursor!
+  node: NodeArticle!
+}
+
+type NodeEventConnection implements Connection {
+  edges: [NodeEventEdge!]!
+  nodes: [NodeEvent!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type NodeEventEdge implements Edge {
+  cursor: Cursor!
+  node: NodeEvent!
+}
+
+type NodeLandingPageConnection implements Connection {
+  edges: [NodeLandingPageEdge!]!
+  nodes: [NodeLandingPage!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type NodeLandingPageEdge implements Edge {
+  cursor: Cursor!
+  node: NodeLandingPage!
+}
+
+type NodeTeamMemberConnection implements Connection {
+  edges: [NodeTeamMemberEdge!]!
+  nodes: [NodeTeamMember!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type NodeTeamMemberEdge implements Edge {
+  cursor: Cursor!
+  node: NodeTeamMember!
+}
+
+type TermTagConnection implements Connection {
+  edges: [TermTagEdge!]!
+  nodes: [TermTag!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type TermTagEdge implements Edge {
+  cursor: Cursor!
+  node: TermTag!
+}
+
+type ParagraphAccordionConnection implements Connection {
+  edges: [ParagraphAccordionEdge!]!
+  nodes: [ParagraphAccordion!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphAccordionEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphAccordion!
+}
+
+type ParagraphCardConnection implements Connection {
+  edges: [ParagraphCardEdge!]!
+  nodes: [ParagraphCard!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphCardEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphCard!
+}
+
+type ParagraphCardGroupConnection implements Connection {
+  edges: [ParagraphCardGroupEdge!]!
+  nodes: [ParagraphCardGroup!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphCardGroupEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphCardGroup!
+}
+
+type ParagraphFaqItemConnection implements Connection {
+  edges: [ParagraphFaqItemEdge!]!
+  nodes: [ParagraphFaqItem!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphFaqItemEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphFaqItem!
+}
+
+type ParagraphFeatureItemConnection implements Connection {
+  edges: [ParagraphFeatureItemEdge!]!
+  nodes: [ParagraphFeatureItem!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphFeatureItemEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphFeatureItem!
+}
+
+type ParagraphHeroConnection implements Connection {
+  edges: [ParagraphHeroEdge!]!
+  nodes: [ParagraphHero!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphHeroEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphHero!
+}
+
+type ParagraphLogoConnection implements Connection {
+  edges: [ParagraphLogoEdge!]!
+  nodes: [ParagraphLogo!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphLogoEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphLogo!
+}
+
+type ParagraphLogoCollectionConnection implements Connection {
+  edges: [ParagraphLogoCollectionEdge!]!
+  nodes: [ParagraphLogoCollection!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphLogoCollectionEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphLogoCollection!
+}
+
+type ParagraphNewsletterConnection implements Connection {
+  edges: [ParagraphNewsletterEdge!]!
+  nodes: [ParagraphNewsletter!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphNewsletterEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphNewsletter!
+}
+
+type ParagraphPricingConnection implements Connection {
+  edges: [ParagraphPricingEdge!]!
+  nodes: [ParagraphPricing!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphPricingEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphPricing!
+}
+
+type ParagraphPricingTierConnection implements Connection {
+  edges: [ParagraphPricingTierEdge!]!
+  nodes: [ParagraphPricingTier!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphPricingTierEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphPricingTier!
+}
+
+type ParagraphQuoteConnection implements Connection {
+  edges: [ParagraphQuoteEdge!]!
+  nodes: [ParagraphQuote!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphQuoteEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphQuote!
+}
+
+type ParagraphSidebysideConnection implements Connection {
+  edges: [ParagraphSidebysideEdge!]!
+  nodes: [ParagraphSidebyside!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphSidebysideEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphSidebyside!
+}
+
+type ParagraphStatConnection implements Connection {
+  edges: [ParagraphStatEdge!]!
+  nodes: [ParagraphStat!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphStatEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphStat!
+}
+
+type ParagraphStatItemConnection implements Connection {
+  edges: [ParagraphStatItemEdge!]!
+  nodes: [ParagraphStatItem!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphStatItemEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphStatItem!
+}
+
+type ParagraphTestimonialConnection implements Connection {
+  edges: [ParagraphTestimonialEdge!]!
+  nodes: [ParagraphTestimonial!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphTestimonialEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphTestimonial!
+}
+
+type ParagraphTextBlockConnection implements Connection {
+  edges: [ParagraphTextBlockEdge!]!
+  nodes: [ParagraphTextBlock!]!
+  pageInfo: ConnectionPageInfo!
+}
+
+type ParagraphTextBlockEdge implements Edge {
+  cursor: Cursor!
+  node: ParagraphTextBlock!
+}
+
+type Mutation {
+  _: Boolean!
+}
+
+type Subscription {
+  _: Boolean!
+}
+
+type DateRange {
+  start: DateTime
+  end: DateTime
+}
+
+type File {
+  name: String
+  url: String!
+  size: Int!
+  mime: String
+  description: String
+}
+
+type ImageStyle implements ImageStyleInterface {
+  id: ID!
+  uuid: ID!
+}
+
+interface ImageStyleInterface {
+  id: ID!
+  uuid: ID!
+}
+
+union ImageStyleUnion = ImageStyle
+
+input KeyValueInput {
+  key: String!
+  value: String
+}
+
+union MenuUnion = Menu
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+type UnsupportedType {
+  unsupported: Boolean
+}
