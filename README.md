@@ -38,13 +38,13 @@ This uses `decoupled-cli` to:
 - Configure your `.env.local` file
 - Import sample content (10 paragraph types, 2 landing pages)
 
-### 3. Generate TypeScript types from your schema
+### 3. Generate typed client from your schema
 
 ```bash
 npm run sync-schema
 ```
 
-Introspects the Drupal GraphQL schema and generates `schema/types.ts` with accurate TypeScript interfaces for all content types and paragraphs.
+Introspects the Drupal GraphQL schema and generates a fully typed client in `schema/client.ts` — TypeScript interfaces for every content type and paragraph, pre-built GraphQL queries, and a `createTypedClient()` factory. Zero hand-written GraphQL needed.
 
 ### 4. Start the site
 
@@ -250,31 +250,12 @@ React components are in `app/components/paragraphs/`. Update them to match your 
 
 ## Demo Mode
 
-Demo mode allows you to showcase the application without connecting to a Drupal backend. It displays all 10 paragraph components with sample content.
-
-### Enable Demo Mode
-
-Set the environment variable:
+When `NEXT_PUBLIC_DEMO_MODE` is not set to `false`, the app uses mock data from `data/mock/` instead of querying Drupal. The same `TypedClient` interface is used — pages don't know the difference.
 
 ```bash
-NEXT_PUBLIC_DEMO_MODE=true
+NEXT_PUBLIC_DEMO_MODE=true   # Uses mock data (no Drupal needed)
+NEXT_PUBLIC_DEMO_MODE=false  # Uses live Drupal backend
 ```
-
-### What Demo Mode Does
-
-- Shows a "Demo Mode" banner at the top of the page
-- Displays the DemoHomepage component with all paragraph types
-- No Drupal backend required
-
-### Removing Demo Mode
-
-To convert to a production app with real data:
-
-1. Delete `lib/demo-mode.ts`
-2. Delete `app/components/DemoHomepage.tsx`
-3. Delete `app/components/DemoModeBanner.tsx`
-4. Remove `DemoModeBanner` import and usage from `app/(site)/layout.tsx`
-5. Remove demo mode check from `app/(site)/page.tsx`
 
 ## Deployment
 
@@ -293,7 +274,7 @@ Works with any Node.js hosting platform that supports Next.js.
 - **[puck-plugin-ai](https://github.com/nextagencyio/puck-plugin-ai)** (AI chat — Groq/Llama via Vercel AI SDK)
 - **@puckeditor/plugin-ai** (official Puck Cloud AI — optional)
 - **Tailwind CSS 3** (component styling)
-- **Apollo Client** (GraphQL data fetching)
+- **decoupled-client** (type-safe Drupal client with codegen)
 - **Cloudinary** (image upload and hosting)
 - **Drupal 11** (headless CMS backend)
 - **graphql_compose** (GraphQL schema generation)
