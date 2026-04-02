@@ -31,15 +31,22 @@ npm install
 npm run setup
 ```
 
-This interactive script will:
+This uses `decoupled-cli` to:
 - Authenticate with Decoupled.io (opens browser)
 - Create a new Drupal space
 - Wait for provisioning (~90 seconds)
 - Configure your `.env.local` file
-- Import sample content with Unsplash images
-- Auto-enable the Puck visual editor for your landing pages
+- Import sample content (10 paragraph types, 2 landing pages)
 
-### 3. Start development
+### 3. Generate TypeScript types from your schema
+
+```bash
+npm run sync-schema
+```
+
+Introspects the Drupal GraphQL schema and generates `schema/types.ts` with accurate TypeScript interfaces for all content types and paragraphs.
+
+### 4. Start the site
 
 ```bash
 npm run build

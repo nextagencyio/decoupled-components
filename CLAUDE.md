@@ -6,12 +6,24 @@ Next.js frontend for Drupal with section-based landing pages, a visual editor (P
 
 ```bash
 npm install
+npm run setup                # Interactive: create space, write .env.local, import content
+npm run sync-schema          # Introspect GraphQL → generate schema/types.ts
 npm run build && npm start   # Production mode (recommended for Puck)
-# OR
-npm run dev                  # Dev mode (HMR can cause memory issues with Puck)
 ```
 
 Default port: 3000
+
+## CLI Commands
+
+All management commands are in `decoupled-cli` (no local scripts needed):
+
+```bash
+npm run setup                # Interactive wizard: auth → create space → .env.local → import content
+npm run setup-content        # Re-import content model + sample data
+npm run sync-schema          # Introspect GraphQL → schema/schema.graphql + schema/types.ts
+```
+
+After changing the content model in Drupal, run `npm run sync-schema` to regenerate TypeScript types.
 
 ## Environment Variables
 

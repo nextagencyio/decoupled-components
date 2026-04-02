@@ -12,9 +12,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "setup": "tsx scripts/setup.ts",
+    "setup": "npx decoupled-cli@latest setup --content data/components-content.json",
     "setup-content": "npx decoupled-cli@latest content import --file data/components-content.json",
-    "setup-content:preview": "npx decoupled-cli@latest content import --file data/components-content.json --preview"
+    "setup-content:preview": "npx decoupled-cli@latest content import --file data/components-content.json --preview",
+    "sync-schema": "npx decoupled-cli@latest schema sync"
   },
   "dependencies": {
     "@apollo/client": "^3.13.9",
@@ -40,7 +41,6 @@
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.17",
-    "tsx": "^4.20.4",
     "typescript": "^5"
   }
 }
