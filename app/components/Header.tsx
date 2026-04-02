@@ -7,6 +7,7 @@ import Button from './ui/Button'
 
 const navigation = [
   { name: 'Features', href: '/#features' },
+  { name: 'Services', href: '/services' },
   { name: 'Pricing', href: '/#pricing' },
   { name: 'About', href: '/about' },
 ]
