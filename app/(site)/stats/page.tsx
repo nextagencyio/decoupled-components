@@ -1,15 +1,5 @@
 export const dynamic = 'force-dynamic'
 
-/**
- * Example page demonstrating the typed client.
- *
- * This page fetches a landing page and extracts specific paragraph types
- * with FULL type safety — no `as any`, no guessing field names.
- *
- * Compare to the old Apollo approach where everything was `any` and
- * you'd only discover wrong field names at runtime.
- */
-
 import { getClient } from '@/lib/drupal-client'
 import type {
   NodeLandingPage,
