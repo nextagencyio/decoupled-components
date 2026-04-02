@@ -1,5 +1,6 @@
 /**
  * Unified Drupal client — same TypedClient interface for demo and live mode.
+ * Uses the auto-generated typed client from schema/client.ts for everything.
  */
 
 import { createClient } from 'decoupled-client'
@@ -7,7 +8,6 @@ import { createTypedClient } from '@/schema/client'
 import type { TypedClient } from '@/schema/client'
 import { isDemoMode } from './demo-mode'
 import { createMockClient } from './mock-client'
-import { GET_LANDING_PAGE } from './queries'
 
 let _liveClient: TypedClient | null = null
 
@@ -33,17 +33,7 @@ function getLiveClient(): TypedClient {
       } as RequestInit)) as typeof globalThis.fetch,
   })
 
-  const typed = createTypedClient(base)
-
-  // Override getEntryByPath with hand-crafted query
-  // (generated ROUTE_QUERY is too large for nested paragraph unions)
-  _liveClient = {
-    ...typed,
-    async getEntryByPath(path) {
-      return base.queryByPath(path, GET_LANDING_PAGE)
-    },
-  }
-
+  _liveClient = createTypedClient(base)
   return _liveClient
 }
 
