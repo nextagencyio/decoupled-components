@@ -341,7 +341,25 @@ export default function EditorPage() {
               >
                 &larr; Back
               </a>
-              {children}
+              {state.status === 'saving' ? (
+                <button
+                  disabled
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    padding: '8px 20px', fontSize: '14px', fontWeight: 600,
+                    color: 'white', background: '#2563eb', border: 'none',
+                    borderRadius: '6px', cursor: 'not-allowed', opacity: 0.8,
+                  }}
+                >
+                  <span style={{
+                    display: 'inline-block', width: '14px', height: '14px',
+                    border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white',
+                    borderRadius: '50%', animation: 'spin 0.8s linear infinite',
+                  }} />
+                  Publishing...
+                  <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+                </button>
+              ) : children}
             </>
           ),
         }}
