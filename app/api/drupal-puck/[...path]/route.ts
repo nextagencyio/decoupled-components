@@ -29,10 +29,28 @@ async function handleRequest(
     let body: string | undefined
 
     if (method === 'POST') {
-      // Require valid session for writes.
+      // Try session first, fall back to token from cookie or query param.
+      // Netlify serverless functions don't share memory across instances,
+      // so in-memory sessions may not persist between requests.
       cleanupSessions()
       const session = getSessionFromRequest(request)
-      if (!session) {
+      let puckToken = session?.token || ''
+
+      // Fallback: extract token from the puck_token cookie (set during validation)
+      if (!puckToken) {
+        const cookieHeader = request.headers.get('cookie') || ''
+        const tokenMatch = cookieHeader.match(/puck_token=([^;]+)/)
+        if (tokenMatch) {
+          puckToken = decodeURIComponent(tokenMatch[1])
+        }
+      }
+
+      // Fallback: check X-Puck-Token header (sent by Puck client)
+      if (!puckToken) {
+        puckToken = request.headers.get('x-puck-token') || ''
+      }
+
+      if (!puckToken) {
         return NextResponse.json(
           { error: 'Unauthorized. Please open the editor from Drupal.' },
           { status: 401 }
@@ -40,8 +58,8 @@ async function handleRequest(
       }
 
       headers['Content-Type'] = 'application/json'
-      // Forward the Puck token from the session to Drupal for save validation.
-      headers['X-Puck-Token'] = session.token
+      // Forward the Puck token to Drupal for save validation.
+      headers['X-Puck-Token'] = puckToken
       const rawBody = await request.json()
       body = JSON.stringify(rawBody)
     }

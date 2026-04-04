@@ -60,6 +60,17 @@ export async function POST(request: NextRequest) {
       maxAge: 8 * 60 * 60, // 8 hours
     })
 
+    // Also set the raw token as a cookie — serverless functions don't share
+    // in-memory sessions across instances, so the save proxy needs the token
+    // available via cookie as a fallback.
+    response.cookies.set('puck_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 8 * 60 * 60,
+    })
+
     return response
   } catch (error: any) {
     console.error('Auth validation error:', error)
