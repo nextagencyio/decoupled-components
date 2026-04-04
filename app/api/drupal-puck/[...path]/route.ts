@@ -46,15 +46,48 @@ async function handleRequest(
       body = JSON.stringify(rawBody)
     }
 
-    const drupalResponse = await fetch(drupalUrl, {
-      method,
-      headers,
-      body,
-      signal: AbortSignal.timeout(30000),
-    })
+    // Retry logic for saves — Drupal pods may be waking from hibernation
+    const maxAttempts = method === 'POST' ? 3 : 1
+    let lastError: string = ''
 
-    const responseData = await drupalResponse.json()
-    return NextResponse.json(responseData, { status: drupalResponse.status })
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        const drupalResponse = await fetch(drupalUrl, {
+          method,
+          headers,
+          body,
+          signal: AbortSignal.timeout(30000),
+        })
+
+        const responseData = await drupalResponse.json()
+
+        if (drupalResponse.ok || attempt === maxAttempts) {
+          return NextResponse.json(responseData, { status: drupalResponse.status })
+        }
+
+        // Retry on server errors (5xx) — pod might be waking up
+        if (drupalResponse.status >= 500) {
+          lastError = `HTTP ${drupalResponse.status}`
+          console.warn(`Puck save attempt ${attempt}/${maxAttempts} failed: ${lastError}, retrying...`)
+          await new Promise(resolve => setTimeout(resolve, 2000 * attempt))
+          continue
+        }
+
+        // Don't retry client errors (4xx)
+        return NextResponse.json(responseData, { status: drupalResponse.status })
+      } catch (fetchError: any) {
+        lastError = fetchError.message
+        if (attempt < maxAttempts) {
+          console.warn(`Puck save attempt ${attempt}/${maxAttempts} error: ${lastError}, retrying...`)
+          await new Promise(resolve => setTimeout(resolve, 2000 * attempt))
+        }
+      }
+    }
+
+    return NextResponse.json(
+      { error: `Puck save failed after ${maxAttempts} attempts: ${lastError}` },
+      { status: 502 }
+    )
   } catch (error: any) {
     console.error('Puck proxy error:', error)
     return NextResponse.json(
