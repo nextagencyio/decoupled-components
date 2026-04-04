@@ -1,6 +1,6 @@
-// Revalidate every 60 seconds (ISR) — pages are pre-built at build time
-// and refreshed on-demand via the /api/revalidate webhook or after 60s.
-export const revalidate = 60
+// Revalidate every 10 seconds — pages are pre-built at build time
+// and refreshed frequently so content changes appear quickly.
+export const revalidate = 10
 
 import { notFound } from 'next/navigation'
 import { ParagraphList } from '@/app/components/paragraphs/ParagraphRenderer'
