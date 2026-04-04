@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 import { ParagraphList } from '@/app/components/paragraphs/ParagraphRenderer'
 import SetupGuide from '@/app/components/SetupGuide'
