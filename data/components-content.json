@@ -1205,7 +1205,8 @@
         "primary_cta_text": "Get Started",
         "primary_cta_url": "/#pricing",
         "secondary_cta_text": "Talk to Sales",
-        "secondary_cta_url": "/about"
+        "secondary_cta_url": "/about",
+        "background_image": ""
       }
     },
     {
