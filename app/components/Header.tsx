@@ -12,19 +12,32 @@ const navigation = [
   { name: 'About', href: '/about' },
 ]
 
-export default function Header() {
+interface HeaderProps {
+  // Uploaded light-mode logo from dc_brand. Resolved server-side in the
+  // (site) layout and passed down here since Header is a client component.
+  logo?: { url: string; alt: string } | null
+}
+
+export default function Header({ logo = null }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <nav className="container-wide" aria-label="Main navigation">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <Rocket className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-xl text-gray-900">LaunchPad</span>
+          {/* Logo — brand upload if present, else fallback wordmark. */}
+          <Link href="/" className="flex items-center gap-2" aria-label="Home">
+            {logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logo.url} alt={logo.alt || 'Logo'} className="h-8 w-auto" />
+            ) : (
+              <>
+                <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                  <Rocket className="w-5 h-5 text-white" />
+                </div>
+                <span className="font-bold text-xl text-gray-900">LaunchPad</span>
+              </>
+            )}
           </Link>
 
           {/* Desktop Navigation */}

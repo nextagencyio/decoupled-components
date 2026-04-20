@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Rocket, Github, Twitter, Linkedin } from 'lucide-react'
+import { getBrandConfig } from '@/lib/brand'
 
 const footerLinks = {
   product: [
@@ -19,18 +20,30 @@ const socialLinks = [
   { name: 'LinkedIn', href: 'https://linkedin.com', icon: Linkedin },
 ]
 
-export default function Footer() {
+export default async function Footer() {
+  const brand = await getBrandConfig()
+  // Footer sits on a dark bg → prefer dark logo, fall back to light, then
+  // to the hardcoded Rocket + LaunchPad wordmark.
+  const logo = brand.logos.dark ?? brand.logos.light
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container-wide py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           {/* Brand */}
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-                <Rocket className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-bold text-xl text-white">LaunchPad</span>
+            <Link href="/" className="flex items-center gap-2 mb-4" aria-label="Home">
+              {logo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logo.url} alt={logo.alt || 'Logo'} className="h-8 w-auto" />
+              ) : (
+                <>
+                  <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
+                    <Rocket className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="font-bold text-xl text-white">LaunchPad</span>
+                </>
+              )}
             </Link>
             <p className="text-sm text-gray-400 mb-6 max-w-xs">
               The platform built for modern teams to ship products faster.
