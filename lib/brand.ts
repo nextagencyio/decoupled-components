@@ -55,6 +55,43 @@ let _cache: Promise<BrandConfig> | null = null
 // Only surface the "couldn't reach dc_brand" warning once per process.
 let _warnedOnce = false
 
+/**
+ * Canonical Tailwind v3 scales (HSL). If the input hex matches any stop of
+ * one of these palettes, synthScale returns the full scale for an exact
+ * perceptual match with the Tailwind original (e.g. components.decoupled.io).
+ *
+ * Declared before FALLBACK because FALLBACK calls synthScale at module init,
+ * and `const` / `let` are TDZ-bound.
+ */
+type StopHsl = [number, number, number]
+const KNOWN_SCALES: Record<string, Record<keyof BrandColor['scale'], StopHsl>> = {
+  violet: {
+    '50': [250, 100, 98.0], '100': [251, 91, 95.5], '200': [251, 95, 91.8],
+    '300': [252, 94, 85.0], '400': [255, 92, 76.3], '500': [258, 90, 66.3],
+    '600': [262, 83, 57.8], '700': [263, 70, 50.4], '800': [263, 69, 42.2],
+    '900': [264, 68, 34.9],
+  },
+  teal: {
+    '50': [166, 76, 96.7], '100': [167, 85, 89.2], '200': [168, 84, 78.2],
+    '300': [171, 77, 64.1], '400': [172, 66, 50.4], '500': [173, 80, 40.0],
+    '600': [175, 84, 32.2], '700': [175, 77, 26.1], '800': [176, 69, 21.8],
+    '900': [176, 61, 18.8],
+  },
+  indigo: {
+    '50': [226, 100, 96.7], '100': [226, 100, 93.9], '200': [228, 96, 88.8],
+    '300': [230, 94, 82.2], '400': [234, 89, 73.9], '500': [239, 84, 66.7],
+    '600': [243, 75, 58.6], '700': [245, 58, 50.8], '800': [244, 55, 41.4],
+    '900': [242, 47, 34.3],
+  },
+  gray: {
+    '50': [210, 40, 98.0], '100': [220, 14, 95.9], '200': [220, 13, 90.9],
+    '300': [216, 12, 83.9], '400': [218, 11, 64.9], '500': [220, 9, 46.1],
+    '600': [215, 14, 34.1], '700': [217, 19, 26.7], '800': [215, 28, 17.1],
+    '900': [221, 39, 11.0],
+  },
+}
+let _hexToPalette: Record<string, string> | null = null
+
 const FALLBACK: BrandConfig = {
   fonts: {
     heading: { family: 'Inter', href: null, weights: [400, 500, 600, 700], category: 'sans' },
@@ -135,40 +172,6 @@ export function brandFontHrefs(config: BrandConfig): string[] {
   if (config.fonts.body.href)    hrefs.add(config.fonts.body.href)
   return [...hrefs]
 }
-
-/**
- * Canonical Tailwind v3 scales (HSL). If the input hex matches any stop of
- * one of these palettes, synthScale returns the full scale for an exact
- * perceptual match with the Tailwind original (e.g. components.decoupled.io).
- */
-type StopHsl = [number, number, number]
-const KNOWN_SCALES: Record<string, Record<keyof BrandColor['scale'], StopHsl>> = {
-  violet: {
-    '50': [250, 100, 98.0], '100': [251, 91, 95.5], '200': [251, 95, 91.8],
-    '300': [252, 94, 85.0], '400': [255, 92, 76.3], '500': [258, 90, 66.3],
-    '600': [262, 83, 57.8], '700': [263, 70, 50.4], '800': [263, 69, 42.2],
-    '900': [264, 68, 34.9],
-  },
-  teal: {
-    '50': [166, 76, 96.7], '100': [167, 85, 89.2], '200': [168, 84, 78.2],
-    '300': [171, 77, 64.1], '400': [172, 66, 50.4], '500': [173, 80, 40.0],
-    '600': [175, 84, 32.2], '700': [175, 77, 26.1], '800': [176, 69, 21.8],
-    '900': [176, 61, 18.8],
-  },
-  indigo: {
-    '50': [226, 100, 96.7], '100': [226, 100, 93.9], '200': [228, 96, 88.8],
-    '300': [230, 94, 82.2], '400': [234, 89, 73.9], '500': [239, 84, 66.7],
-    '600': [243, 75, 58.6], '700': [245, 58, 50.8], '800': [244, 55, 41.4],
-    '900': [242, 47, 34.3],
-  },
-  gray: {
-    '50': [210, 40, 98.0], '100': [220, 14, 95.9], '200': [220, 13, 90.9],
-    '300': [216, 12, 83.9], '400': [218, 11, 64.9], '500': [220, 9, 46.1],
-    '600': [215, 14, 34.1], '700': [217, 19, 26.7], '800': [215, 28, 17.1],
-    '900': [221, 39, 11.0],
-  },
-}
-let _hexToPalette: Record<string, string> | null = null
 
 function matchKnownPalette(hex: string): string | null {
   if (!_hexToPalette) {
