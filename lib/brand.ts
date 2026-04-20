@@ -61,11 +61,11 @@ const FALLBACK: BrandConfig = {
     body:    { family: 'Inter', href: null, weights: [400, 500, 600, 700], category: 'sans' },
   },
   colors: {
-    primary:    synthScale('#3b82f6'),
-    secondary:  synthScale('#8b5cf6'),
-    accent:     synthScale('#ec4899'),
-    neutral:    synthScale('#475569'),
-    background: synthScale('#0f172a'),
+    primary:    synthScale('#7c3aed'),
+    secondary:  synthScale('#14b8a6'),
+    accent:     synthScale('#4f46e5'),
+    neutral:    synthScale('#6b7280'),
+    background: synthScale('#ffffff'),
   },
   logos: { light: null, dark: null },
 }
