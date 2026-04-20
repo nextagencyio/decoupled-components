@@ -6,36 +6,20 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // Color tokens reference CSS custom properties set in RootLayout from
+      // the dc_brand Drupal config. Any utility class like `bg-primary-500`
+      // or `text-accent-700` reflects whatever the marketer picked in
+      // Drupal — no rebuild of this config needed per-site.
       colors: {
-        primary: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
-        },
-        secondary: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
-          950: '#042f2e',
-        },
+        primary:   scale('primary'),
+        secondary: scale('secondary'),
+        accent:    scale('accent'),
+        neutral:   scale('neutral'),
+        surface:   scale('background'),
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans:    ['var(--brand-font-body)',    'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['var(--brand-font-heading)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -44,22 +28,12 @@ module.exports = {
             color: theme('colors.gray.700'),
             a: {
               color: theme('colors.primary.600'),
-              '&:hover': {
-                color: theme('colors.primary.700'),
-              },
+              '&:hover': { color: theme('colors.primary.700') },
             },
-            h1: {
-              color: theme('colors.gray.900'),
-            },
-            h2: {
-              color: theme('colors.gray.900'),
-            },
-            h3: {
-              color: theme('colors.gray.900'),
-            },
-            h4: {
-              color: theme('colors.gray.900'),
-            },
+            h1: { color: theme('colors.gray.900') },
+            h2: { color: theme('colors.gray.900') },
+            h3: { color: theme('colors.gray.900') },
+            h4: { color: theme('colors.gray.900') },
           },
         },
       }),
@@ -68,4 +42,15 @@ module.exports = {
   plugins: [
     require('@tailwindcss/typography'),
   ],
+}
+
+function scale(name) {
+  const stops = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900']
+  const out = {}
+  for (const stop of stops) {
+    out[stop] = `hsl(var(--brand-${name}-${stop}) / <alpha-value>)`
+  }
+  out['950'] = `hsl(var(--brand-${name}-900) / <alpha-value>)`
+  out.DEFAULT = `hsl(var(--brand-${name}-500) / <alpha-value>)`
+  return out
 }
