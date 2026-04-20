@@ -108,8 +108,11 @@ export default function ParagraphLogoCollection({
             const LogoIcon = TechLogos[nameKey]
             const brandColor = brandColors[nameKey]
 
-            // Check if there's a valid image URL (starts with http)
-            const hasValidImage = logo.image?.url && logo.image.url.startsWith('http')
+            // Check if there's a valid image URL (starts with http). Treat
+            // dc_import auto-generated placeholders as "no image" so we fall
+            // back to the text-only style used on components.decoupled.io.
+            const imageUrl = logo.image?.url ?? ''
+            const hasValidImage = imageUrl.startsWith('http') && !imageUrl.includes('placeholder')
 
             // Prioritize inline SVG icons for known tech brands
             const content = LogoIcon ? (
