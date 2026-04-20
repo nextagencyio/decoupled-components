@@ -623,66 +623,59 @@
       }
     },
     {
-      "id": "logo-nextjs",
+      "id": "logo-acme",
       "type": "paragraph.logo",
       "values": {
-        "name": "Next.js",
-        "url": "https://nextjs.org"
+        "name": "Acme Corp"
       }
     },
     {
-      "id": "logo-drupal",
+      "id": "logo-techflow",
       "type": "paragraph.logo",
       "values": {
-        "name": "Drupal",
-        "url": "https://drupal.org"
+        "name": "TechFlow"
       }
     },
     {
-      "id": "logo-graphql",
+      "id": "logo-quantum",
       "type": "paragraph.logo",
       "values": {
-        "name": "GraphQL",
-        "url": "https://graphql.org"
+        "name": "Quantum"
       }
     },
     {
-      "id": "logo-tailwind",
+      "id": "logo-novasoft",
       "type": "paragraph.logo",
       "values": {
-        "name": "Tailwind",
-        "url": "https://tailwindcss.com"
+        "name": "NovaSoft"
       }
     },
     {
-      "id": "logo-typescript",
+      "id": "logo-cloudbase",
       "type": "paragraph.logo",
       "values": {
-        "name": "TypeScript",
-        "url": "https://typescriptlang.org"
+        "name": "CloudBase"
       }
     },
     {
-      "id": "logo-vercel",
+      "id": "logo-datastream",
       "type": "paragraph.logo",
       "values": {
-        "name": "Vercel",
-        "url": "https://vercel.com"
+        "name": "DataStream"
       }
     },
     {
       "id": "logo-section",
       "type": "paragraph.logo_collection",
       "values": {
-        "eyebrow": "Tech Stack",
-        "title": "Built with modern technology",
+        "title": "Trusted by 10,000+ teams worldwide",
         "logos": [
-          "@logo-nextjs",
-          "@logo-drupal",
-          "@logo-graphql",
-          "@logo-tailwind",
-          "@logo-typescript",
-          "@logo-vercel"
+          "@logo-acme",
+          "@logo-techflow",
+          "@logo-quantum",
+          "@logo-novasoft",
+          "@logo-cloudbase",
+          "@logo-datastream"
         ]
       }
     },
