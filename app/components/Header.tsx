@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Menu, X, Rocket } from 'lucide-react'
 import Button from './ui/Button'
 
-const navigation = [
+const DEFAULT_NAV = [
   { name: 'Features', href: '/#features' },
   { name: 'Services', href: '/services' },
   { name: 'Pricing', href: '/#pricing' },
@@ -16,10 +16,20 @@ interface HeaderProps {
   // Uploaded light-mode logo from dc_brand. Resolved server-side in the
   // (site) layout and passed down here since Header is a client component.
   logo?: { url: string; alt: string } | null
+  // Site name from Drupal's system.site.name. Fallback is "LaunchPad".
+  siteName?: string
+  // Nav items resolved from Drupal's main menu. Empty array falls
+  // through to the hardcoded DEFAULT_NAV.
+  nav?: Array<{ label: string; href: string }>
 }
 
-export default function Header({ logo = null }: HeaderProps) {
+export default function Header({ logo = null, siteName, nav }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const brandLabel = siteName || 'LaunchPad'
+  const configured = (nav ?? []).filter((n) => n.label && n.href)
+  const navigation = configured.length > 0
+    ? configured.map((n) => ({ name: n.label, href: n.href }))
+    : DEFAULT_NAV
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
@@ -35,7 +45,7 @@ export default function Header({ logo = null }: HeaderProps) {
                 <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
                   <Rocket className="w-5 h-5 text-white" />
                 </div>
-                <span className="font-bold text-xl text-gray-900">LaunchPad</span>
+                <span className="font-bold text-xl text-gray-900">{brandLabel}</span>
               </>
             )}
           </Link>

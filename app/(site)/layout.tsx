@@ -10,7 +10,7 @@ export default async function SiteLayout({
   const brand = await getBrandConfig()
   return (
     <div className="flex min-h-screen flex-col">
-      <Header logo={brand.logos.light} />
+      <Header logo={brand.logos.light} siteName={brand.site?.name} nav={brand.nav} />
       <main className="flex-1">
         {children}
       </main>

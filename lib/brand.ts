@@ -49,6 +49,13 @@ export interface BrandConfig {
     light: BrandLogo | null
     dark: BrandLogo | null
   }
+  /** Site-level identity from Drupal's system.site config. */
+  site?: {
+    name: string
+    slogan: string
+  }
+  /** Primary navigation resolved from Drupal's main menu. */
+  nav?: Array<{ label: string; href: string }>
 }
 
 let _cache: Promise<BrandConfig> | null = null

@@ -9,6 +9,14 @@
 
   body {
     @apply antialiased text-gray-900;
+    font-family: var(--brand-font-body), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* Apply the dc_brand heading font to every heading by default.
+     Paragraph components can still override with utility classes
+     when a specific section needs it. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--brand-font-heading), ui-sans-serif, system-ui, sans-serif;
   }
 }
 
