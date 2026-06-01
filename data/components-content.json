@@ -29,7 +29,7 @@
         },
         {
           "id": "title",
-          "type": "string!",
+          "type": "string",
           "label": "Title"
         },
         {
@@ -86,7 +86,7 @@
         },
         {
           "id": "title",
-          "type": "string!",
+          "type": "string",
           "label": "Title"
         },
         {
@@ -155,7 +155,7 @@
         },
         {
           "id": "title",
-          "type": "string!",
+          "type": "string",
           "label": "Title"
         },
         {
@@ -182,7 +182,7 @@
         },
         {
           "id": "title",
-          "type": "string!",
+          "type": "string",
           "label": "Title"
         },
         {
@@ -224,12 +224,12 @@
       "fields": [
         {
           "id": "question",
-          "type": "string!",
+          "type": "string",
           "label": "Question"
         },
         {
           "id": "answer",
-          "type": "text!",
+          "type": "text",
           "label": "Answer"
         }
       ]
@@ -273,12 +273,12 @@
       "fields": [
         {
           "id": "quote",
-          "type": "text!",
+          "type": "text",
           "label": "Quote"
         },
         {
           "id": "author_name",
-          "type": "string!",
+          "type": "string",
           "label": "Author Name"
         },
         {
@@ -342,12 +342,12 @@
       "fields": [
         {
           "id": "name",
-          "type": "string!",
+          "type": "string",
           "label": "Tier Name"
         },
         {
           "id": "price",
-          "type": "string!",
+          "type": "string",
           "label": "Price"
         },
         {
@@ -421,7 +421,7 @@
       "fields": [
         {
           "id": "name",
-          "type": "string!",
+          "type": "string",
           "label": "Company Name"
         },
         {
@@ -470,12 +470,12 @@
       "fields": [
         {
           "id": "value",
-          "type": "string!",
+          "type": "string",
           "label": "Value"
         },
         {
           "id": "label",
-          "type": "string!",
+          "type": "string",
           "label": "Label"
         },
         {
@@ -534,7 +534,7 @@
         },
         {
           "id": "title",
-          "type": "string!",
+          "type": "string",
           "label": "Title"
         },
         {
@@ -581,7 +581,7 @@
         },
         {
           "id": "content",
-          "type": "text!",
+          "type": "text",
           "label": "Content"
         },
         {
