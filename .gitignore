@@ -41,3 +41,8 @@ next-env.d.ts
 
 # Drupal Canvas build artifacts
 /.canvas/
+
+# OpenNext / Cloudflare build output
+/.open-next/
+/.wrangler/
+.dev.vars

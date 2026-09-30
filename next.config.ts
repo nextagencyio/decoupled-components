@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   transpilePackages: ['decoupled-client'],
+  // `next dev` otherwise appends a managed agent-rules block to CLAUDE.md
+  // whenever it detects an AI coding agent; this repo maintains its own.
+  agentRules: false,
   turbopack: {
     root: process.cwd(),
   },

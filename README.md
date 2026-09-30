@@ -84,8 +84,10 @@ visitors only see what has been published.
 
 Create `canvas/<name>/component.yml` (props as JSON schema, plus slots) and
 `index.tsx`, then reload the Canvas editor to sync it. The `component.yml` files
-are shared with the Astro starter (`decoupled-components-astro`); keep them
-identical if one Drupal site serves both frontends.
+are shared with the Astro starter (`decoupled-components-astro`) and must stay
+identical: Canvas refuses to sync a component whose definition differs between
+two frontends of one site. `npm run check:canvas` compares them against a sibling
+checkout, and CI runs the same check.
 
 ## Manual Setup
 

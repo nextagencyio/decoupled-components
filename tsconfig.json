@@ -37,6 +37,6 @@
   ],
   "exclude": [
     "node_modules",
-    "open-next.config.ts"
+    ".open-next"
   ]
 }

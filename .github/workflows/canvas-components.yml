@@ -1,0 +1,24 @@
+name: Canvas components
+
+# Drupal Canvas refuses to sync a component whose component.yml differs
+# between two frontends of the same site, so both starters must stay identical.
+on:
+  pull_request:
+    paths: ['canvas/**/component.yml', 'scripts/check-canvas-components.mjs']
+  push:
+    branches: [main]
+    paths: ['canvas/**/component.yml']
+
+jobs:
+  match-sibling-starter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: nextagencyio/decoupled-components-astro
+          path: .sibling
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/check-canvas-components.mjs .sibling/src/canvas

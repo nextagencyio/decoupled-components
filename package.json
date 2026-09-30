@@ -16,7 +16,8 @@
     "setup-content": "npx decoupled-cli@2.14.1 content import --file data/components-content.json",
     "setup-content:preview": "npx decoupled-cli@2.14.1 content import --file data/components-content.json --preview",
     "sync-schema": "npx decoupled-cli@2.14.1 schema sync",
-    "build:cloudflare": "opennextjs-cloudflare build"
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "check:canvas": "node scripts/check-canvas-components.mjs ../decoupled-components-astro/src/canvas"
   },
   "dependencies": {
     "@drupal-canvas/headless": "^0.11.0",
@@ -29,20 +30,22 @@
     "dotenv": "^17.2.1",
     "drupal-canvas": "^0.7.1",
     "lucide-react": "^0.539.0",
-    "next": "^16.2.12",
+    "next": "^16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.7",
     "@types/node": "^22",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "autoprefixer": "^10.4.20",
     "decoupled-cli": "^2.9.9",
     "eslint": "^9",
-    "eslint-config-next": "^16.2.12",
+    "eslint-config-next": "^16.3.6",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.144.0"
   }
 }
