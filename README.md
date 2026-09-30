@@ -114,10 +114,6 @@ Note the space ID returned (e.g., `Space ID: 1234`). Wait ~90 seconds for provis
 npx decoupled-cli@latest spaces env 1234 --write .env.local
 ```
 
-Add AI and image upload keys to `.env.local`:
-```env
-```
-
 ### Import content
 
 ```bash
