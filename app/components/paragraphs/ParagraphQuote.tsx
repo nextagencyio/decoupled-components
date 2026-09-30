@@ -11,7 +11,7 @@ function secureUrl(url: string): string {
   return url.replace(/^http:\/\//, 'https://')
 }
 
-function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+export function TestimonialCard({ testimonial }: { testimonial: Omit<Testimonial, 'id'> }) {
   return (
     <Card variant="bordered" className="h-full flex flex-col">
       {/* Rating */}
@@ -77,7 +77,12 @@ export default function ParagraphQuote({
   title,
   layout = 'grid',
   testimonials,
-}: ParagraphQuoteType) {
+  children,
+}: Omit<ParagraphQuoteType, '__typename' | 'id' | 'testimonials'> & {
+  testimonials?: ParagraphQuoteType['testimonials']
+  /** Canvas passes list items as slotted child components instead of an array. */
+  children?: React.ReactNode
+}) {
   return (
     <section className="section-padding bg-white">
       <div className="container-wide">
@@ -98,7 +103,11 @@ export default function ParagraphQuote({
         )}
 
         {/* Testimonials */}
-        {layout === 'single' && testimonials?.length > 0 ? (
+        {!testimonials?.length && children ? (
+          <div className={layout === 'single' ? 'max-w-3xl mx-auto grid gap-6' : 'grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'}>
+            {children}
+          </div>
+        ) : layout === 'single' && testimonials && testimonials.length > 0 ? (
           <div className="max-w-3xl mx-auto">
             <TestimonialCard testimonial={testimonials[0]} />
           </div>

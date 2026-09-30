@@ -1,0 +1,18 @@
+name: Logo Collection
+machineName: logo_collection
+status: true
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Trusted by
+    title:
+      title: Title
+      type: string
+      examples:
+      - Teams at leading companies
+slots:
+  logos:
+    title: Logos

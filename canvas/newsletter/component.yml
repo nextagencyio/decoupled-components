@@ -1,0 +1,47 @@
+name: Newsletter
+machineName: newsletter
+status: true
+required:
+- title
+- backgroundColor
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - Stay in the loop
+    subtitle:
+      title: Subtitle
+      type: string
+      examples:
+      - Product news, once a month.
+    placeholder:
+      title: Input placeholder
+      type: string
+      examples:
+      - Enter your email
+    buttonText:
+      title: Button text
+      type: string
+      examples:
+      - Subscribe
+    backgroundColor:
+      title: Background
+      type: string
+      examples:
+      - dark
+      enum:
+      - dark
+      - light
+      - gradient
+      meta:enum:
+        dark: Dark
+        light: Light
+        gradient: Gradient
+slots: {}

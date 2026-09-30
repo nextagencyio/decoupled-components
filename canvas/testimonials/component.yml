@@ -1,0 +1,31 @@
+name: Testimonials
+machineName: testimonials
+status: true
+required:
+- layout
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - Loved by teams everywhere
+    layout:
+      title: Layout
+      type: string
+      examples:
+      - grid
+      enum:
+      - grid
+      - single
+      meta:enum:
+        grid: Grid
+        single: Single
+slots:
+  testimonials:
+    title: Testimonials

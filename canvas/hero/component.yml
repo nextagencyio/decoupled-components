@@ -1,0 +1,84 @@
+name: Hero
+machineName: hero
+status: true
+required:
+- title
+- layout
+- backgroundColor
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Now in beta
+    title:
+      title: Title
+      type: string
+      examples:
+      - Ship products faster
+    subtitle:
+      title: Subtitle
+      type: string
+      examples:
+      - <p>The platform built for modern teams to ship products faster.</p>
+      contentMediaType: text/html
+      x-formatting-context: block
+    layout:
+      title: Layout
+      type: string
+      examples:
+      - centered
+      enum:
+      - centered
+      - left-aligned
+      meta:enum:
+        centered: Centered
+        left-aligned: Left aligned
+    backgroundColor:
+      title: Background
+      type: string
+      examples:
+      - gradient
+      enum:
+      - white
+      - light
+      - dark
+      - gradient
+      meta:enum:
+        white: White
+        light: Light
+        dark: Dark
+        gradient: Gradient
+    backgroundImage:
+      title: Background image
+      type: object
+      $ref: json-schema-definitions://canvas.module/image
+      examples:
+      - src: https://placehold.co/1200x800@2x.png
+        alt: Placeholder image
+        width: 1200
+        height: 800
+    primaryCtaText:
+      title: Primary button text
+      type: string
+      examples:
+      - Get started
+    primaryCtaUrl:
+      title: Primary button link
+      type: string
+      examples:
+      - /contact
+      format: uri-reference
+    secondaryCtaText:
+      title: Secondary button text
+      type: string
+      examples:
+      - Learn more
+    secondaryCtaUrl:
+      title: Secondary button link
+      type: string
+      examples:
+      - /about
+      format: uri-reference
+slots: {}

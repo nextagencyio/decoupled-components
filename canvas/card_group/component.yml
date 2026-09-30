@@ -1,0 +1,38 @@
+name: Card Group
+machineName: card_group
+status: true
+required:
+- columns
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - Everything you need
+    subtitle:
+      title: Subtitle
+      type: string
+      examples:
+      - Powerful building blocks for every page.
+    columns:
+      title: Columns
+      type: string
+      examples:
+      - '3'
+      enum:
+      - '2'
+      - '3'
+      - '4'
+      meta:enum:
+        '2': 2 columns
+        '3': 3 columns
+        '4': 4 columns
+slots:
+  cards:
+    title: Cards

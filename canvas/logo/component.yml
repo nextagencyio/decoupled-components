@@ -1,0 +1,28 @@
+name: Logo
+machineName: logo
+status: true
+required:
+- name
+props:
+  properties:
+    name:
+      title: Name
+      type: string
+      examples:
+      - Acme
+    image:
+      title: Logo image
+      type: object
+      $ref: json-schema-definitions://canvas.module/image
+      examples:
+      - src: https://placehold.co/1200x800@2x.png
+        alt: Placeholder image
+        width: 1200
+        height: 800
+    url:
+      title: Link
+      type: string
+      examples:
+      - https://example.com
+      format: uri-reference
+slots: {}

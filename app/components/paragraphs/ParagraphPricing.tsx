@@ -7,7 +7,7 @@ import Badge from '../ui/Badge'
 import Button from '../ui/Button'
 import Card from '../ui/Card'
 
-function PricingCard({ tier }: { tier: PricingTier }) {
+export function PricingCard({ tier }: { tier: Omit<PricingTier, 'id'> }) {
   return (
     <Card
       variant={tier.isFeatured ? 'highlighted' : 'bordered'}
@@ -74,7 +74,11 @@ export default function ParagraphPricing({
   title,
   subtitle,
   tiers,
-}: ParagraphPricingType) {
+  children,
+}: Omit<ParagraphPricingType, '__typename' | 'id'> & {
+  /** Canvas passes list items as slotted child components instead of an array. */
+  children?: React.ReactNode
+}) {
   return (
     <section className="section-padding bg-gray-50" id="pricing">
       <div className="container-wide">
@@ -111,6 +115,8 @@ export default function ParagraphPricing({
               <PricingCard key={tier.id} tier={tier} />
             ))}
           </div>
+        ) : children ? (
+          <div className="grid gap-6 md:gap-8 items-start md:grid-cols-3">{children}</div>
         ) : (
           <div className="text-center py-8 text-gray-500">
             <p>No pricing tiers configured. Add tiers in the Drupal admin.</p>

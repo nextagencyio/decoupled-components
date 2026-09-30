@@ -1,0 +1,59 @@
+name: Side by Side
+machineName: side_by_side
+status: true
+required:
+- title
+- imagePosition
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - Built for the way you work
+    content:
+      title: Content
+      type: string
+      examples:
+      - <p>Bring your content, components and team together in one place.</p>
+      contentMediaType: text/html
+      x-formatting-context: block
+    image:
+      title: Image
+      type: object
+      $ref: json-schema-definitions://canvas.module/image
+      examples:
+      - src: https://placehold.co/1200x800@2x.png
+        alt: Placeholder image
+        width: 1200
+        height: 800
+    imagePosition:
+      title: Image position
+      type: string
+      examples:
+      - right
+      enum:
+      - right
+      - left
+      meta:enum:
+        right: Right
+        left: Left
+    ctaText:
+      title: Button text
+      type: string
+      examples:
+      - See how it works
+    ctaUrl:
+      title: Button link
+      type: string
+      examples:
+      - /how-it-works
+      format: uri-reference
+slots:
+  features:
+    title: Features

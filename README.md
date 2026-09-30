@@ -1,16 +1,15 @@
 # Decoupled Components
 
-A component showcase starter for Decoupled Drupal + Next.js with a built-in visual page builder. Demonstrates 10 paragraph-style components for building landing pages — editable via drag-and-drop with [Puck Editor](https://puckeditor.com) and AI-assisted content generation.
+A component showcase starter for Decoupled Drupal + Next.js with a built-in visual page builder. Demonstrates 10 paragraph-style components for building landing pages — editable in the [Drupal Canvas](https://www.drupal.org/project/canvas) visual editor with live preview.
 
 ![Decoupled Components Screenshot](docs/screenshot.png)
 
 ## Features
 
 - **10 Paragraph Components** — Hero, Cards, SideBySide, Accordion, Testimonials, Pricing, Logos, Stats, Newsletter, Text
-- **Visual Page Builder** — Drag-and-drop editor powered by Puck with live preview
-- **AI Content Generation** — Generate pages and sections with natural language via Groq/Llama
+- **Visual Page Builder** — Drupal Canvas editor with live draft preview in this app
 - **Component Showcase** — Interactive gallery at `/showcase`
-- **Paragraph-Backed Storage** — All visual editor content saves as real Drupal paragraph entities
+- **One set of components** — Canvas pages and GraphQL paragraph pages render the same React components
 - **Skeleton Loading** — Beautiful loading states for all components
 - **Demo Mode** — Works without Drupal for preview (set `NEXT_PUBLIC_DEMO_MODE=true`)
 - **Modern Design** — Purple/indigo theme with Tailwind CSS
@@ -53,86 +52,40 @@ npm run build
 npm start
 ```
 
-**Important:** Use `npm start` (production mode) for the visual editor. The dev server's HMR causes memory issues with Puck's live re-rendering.
-
 Visit [http://localhost:3000](http://localhost:3000)
 
 ---
 
 ## Visual Page Builder
 
-The starter includes a built-in visual page builder powered by [Puck Editor](https://puckeditor.com). Design landing pages with drag-and-drop components that save to Drupal as real paragraph entities.
+Pages are built in the [Drupal Canvas](https://www.drupal.org/project/canvas)
+editor (`/canvas` on the Drupal site, which needs the `dc_canvas` module). Canvas
+embeds this app as its live preview and syncs its component library from it, using
+`@drupal-canvas/headless-next`. Editors see unsaved changes in the real frontend;
+visitors only see what has been published.
 
 ### How It Works
 
-1. Navigate to any landing page in Drupal and click the **Design Studio** tab
-2. The Puck editor opens with your components in the sidebar
-3. Drag components onto the canvas, edit fields in the right panel
-4. Click **Publish** to save back to Drupal as paragraph entities
-5. The frontend renders the same paragraphs via GraphQL
-
-### Architecture
-
-```
-Drupal (CMS)                          Next.js (Frontend + Editor)
-├── dc_puck module                    ├── /editor/[nid]       ← Puck editor + AI
-│   ├── Design Studio tab             ├── /node/[nid]         ← Preview render
-│   ├── PuckMappingService            ├── /[...slug]          ← Frontend pages
-│   ├── /api/puck/load/{nid}          ├── /api/drupal-puck/   ← Proxy to Drupal
-│   ├── /api/puck/save/{nid}          ├── /api/ai/generate    ← Groq AI endpoint
-│   └── Signed token auth             ├── /api/puck/[...all]  ← Puck Cloud AI proxy
-│                                     └── /api/upload/        ← Cloudinary proxy
-├── Paragraph entities (field_sections)
-└── GraphQL (graphql_compose)
-```
-
-### AI-Assisted Content
-
-The editor ships with **two AI providers** — switch between them with an environment variable:
-
-| Provider | Plugin | Backend | Cost | Env Var |
-|----------|--------|---------|------|---------|
-| **Groq** (default) | `puck-plugin-ai` | Groq/Llama via Vercel AI SDK | Free (Groq free tier) | `GROQ_API_KEY` |
-| **Puck Cloud** | `@puckeditor/plugin-ai` | Puck's hosted AI | $25/mo + per-use | `PUCK_API_KEY` |
-
-Set the provider in `.env.local`:
-
-```env
-# "groq" (default) or "puck-cloud"
-NEXT_PUBLIC_PUCK_AI_PROVIDER=groq
-
-# Groq (free)
-GROQ_API_KEY=your_groq_api_key
-
-# Puck Cloud (paid — https://cloud.puckeditor.com)
-PUCK_API_KEY=your_puck_cloud_api_key
-```
-
-Both support natural language page generation:
-
-| User Says | Action |
-|-----------|--------|
-| "Create a landing page for a coffee shop" | Generates full page |
-| "Add a pricing section with 3 tiers" | Appends to existing page |
-| "Rewrite the hero with better copy" | Updates specific section |
-
-### Single Source of Truth
-
-`data/components-content.json` drives everything:
-
-- **Drupal:** Creates paragraph types and fields via `dc_import`
-- **Drupal:** `dc_puck` auto-detects paragraph types and generates field mapping
-- **Puck:** Editor config auto-generated from the same JSON at build time
-- **Content:** Sample data imported from the `content` section
+- **Components:** `canvas/<machine_name>/{component.yml,index.tsx}`. There are 10
+  sections plus 7 child items (cards, FAQ items, testimonials, pricing tiers, logos,
+  stats, features), which go into their parent's slot. Each `index.tsx` is a thin
+  wrapper around the same `app/components/paragraphs/*` components that render
+  GraphQL paragraph pages, so there is one source of markup.
+- **Routing:** `app/(site)/page.tsx` and `[...slug]/page.tsx` try Canvas first
+  (`lib/canvas.ts`, which is draft-aware) and fall back to GraphQL landing pages.
+  The homepage is the Drupal front page, or a Canvas page with the alias `/home`.
+- **Canvas routes:** `/api/draft`, `/api/disable-draft`, `/api/canvas/components`,
+  `/api/canvas/component-preview` and `/api/canvas/jsonapi/*`. `proxy.ts` handles
+  the draft session and the CSP `frame-ancestors` header for the editor iframe.
+- **Env:** `CANVAS_SITE_URL` defaults to `NEXT_PUBLIC_DRUPAL_BASE_URL`. Draft
+  preview needs a Chromium browser, because the preview cookie is partitioned.
 
 ### Adding New Components
 
-1. Add paragraph model with `puck` key to `data/components-content.json`
-2. Create a React component in `app/components/paragraphs/`
-3. Add one line to `lib/component-registry.tsx`
-4. Run `npm run setup-content` to create in Drupal + rebuild
-
----
+Create `canvas/<name>/component.yml` (props as JSON schema, plus slots) and
+`index.tsx`, then reload the Canvas editor to sync it. The `component.yml` files
+are shared with the Astro starter (`decoupled-components-astro`); keep them
+identical if one Drupal site serves both frontends.
 
 ## Manual Setup
 
@@ -163,14 +116,6 @@ npx decoupled-cli@latest spaces env 1234 --write .env.local
 
 Add AI and image upload keys to `.env.local`:
 ```env
-# AI (optional)
-GROQ_API_KEY=your_groq_api_key
-UNSPLASH_ACCESS_KEY=your_unsplash_key
-
-# Image uploads (optional)
-NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-NEXT_PUBLIC_CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ### Import content
@@ -184,7 +129,6 @@ This imports:
 - Homepage with all components demonstrated
 - About page with team cards
 - Sample content with Unsplash images
-- Auto-enables Puck editor for the `landing_page` content type
 
 </details>
 
@@ -243,7 +187,7 @@ This imports:
 Edit `tailwind.config.js` to customize colors, fonts, and spacing.
 
 ### Content Structure
-Modify `data/components-content.json` to add or change paragraph types and sample content. The Puck editor config auto-generates from this file.
+Modify `data/components-content.json` to add or change paragraph types and sample content.
 
 ### Components
 React components are in `app/components/paragraphs/`. Update them to match your design needs — the visual editor uses the same components.
@@ -270,12 +214,9 @@ Works with any Node.js hosting platform that supports Next.js.
 ## Tech Stack
 
 - **Next.js 16** (App Router, React 19)
-- **@puckeditor/core 0.21** (drag-and-drop visual editor)
-- **[puck-plugin-ai](https://github.com/nextagencyio/puck-plugin-ai)** (AI chat — Groq/Llama via Vercel AI SDK)
-- **@puckeditor/plugin-ai** (official Puck Cloud AI — optional)
+- **Drupal Canvas headless** (`@drupal-canvas/headless-next`, visual editor integration)
 - **Tailwind CSS 3** (component styling)
 - **decoupled-client** (type-safe Drupal client with codegen)
-- **Cloudinary** (image upload and hosting)
 - **Drupal 11** (headless CMS backend)
 - **graphql_compose** (GraphQL schema generation)
 
@@ -283,8 +224,7 @@ Works with any Node.js hosting platform that supports Next.js.
 
 - [Decoupled.io Docs](https://www.decoupled.io/docs)
 - [Next.js Documentation](https://nextjs.org/docs)
-- [Puck Editor](https://puckeditor.com)
-- [puck-plugin-ai](https://github.com/nextagencyio/puck-plugin-ai)
+- [Drupal Canvas](https://www.drupal.org/project/canvas)
 
 ## License
 

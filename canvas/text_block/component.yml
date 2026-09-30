@@ -1,0 +1,48 @@
+name: Text Block
+machineName: text_block
+status: true
+required:
+- content
+- alignment
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - About us
+    content:
+      title: Content
+      type: string
+      examples:
+      - <p>Tell your story here.</p>
+      contentMediaType: text/html
+      x-formatting-context: block
+    alignment:
+      title: Alignment
+      type: string
+      examples:
+      - left
+      enum:
+      - left
+      - center
+      meta:enum:
+        left: Left
+        center: Center
+    ctaText:
+      title: Button text
+      type: string
+      examples:
+      - Contact us
+    ctaUrl:
+      title: Button link
+      type: string
+      examples:
+      - /contact
+      format: uri-reference
+slots: {}

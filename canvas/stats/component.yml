@@ -1,0 +1,31 @@
+name: Stats
+machineName: stats
+status: true
+required:
+- backgroundColor
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - By the numbers
+    backgroundColor:
+      title: Background
+      type: string
+      examples:
+      - white
+      enum:
+      - white
+      - light
+      meta:enum:
+        white: White
+        light: Light
+slots:
+  stats:
+    title: Stats
