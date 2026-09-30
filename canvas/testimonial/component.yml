@@ -1,0 +1,45 @@
+name: Testimonial
+machineName: testimonial
+status: true
+required:
+- quote
+- authorName
+props:
+  properties:
+    quote:
+      title: Quote
+      type: string
+      examples:
+      - We launched our new site in a week.
+    authorName:
+      title: Author name
+      type: string
+      examples:
+      - Alex Rivera
+    authorTitle:
+      title: Author title
+      type: string
+      examples:
+      - Head of Marketing
+    authorCompany:
+      title: Author company
+      type: string
+      examples:
+      - Acme
+    authorImage:
+      title: Author photo
+      type: object
+      $ref: json-schema-definitions://canvas.module/image
+      examples:
+      - src: https://placehold.co/1200x800@2x.png
+        alt: Placeholder image
+        width: 1200
+        height: 800
+    rating:
+      title: Rating
+      type: integer
+      examples:
+      - 5
+      minimum: 1
+      maximum: 5
+slots: {}

@@ -1,0 +1,23 @@
+name: Accordion
+machineName: accordion
+status: true
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - Frequently asked questions
+    subtitle:
+      title: Subtitle
+      type: string
+      examples:
+      - Everything you need to know.
+slots:
+  items:
+    title: Questions

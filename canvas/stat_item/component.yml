@@ -1,0 +1,24 @@
+name: Stat Item
+machineName: stat_item
+status: true
+required:
+- value
+- label
+props:
+  properties:
+    value:
+      title: Value
+      type: string
+      examples:
+      - 99.9%
+    label:
+      title: Label
+      type: string
+      examples:
+      - Uptime
+    description:
+      title: Description
+      type: string
+      examples:
+      - Measured over the last 12 months
+slots: {}

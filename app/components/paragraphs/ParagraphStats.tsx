@@ -4,12 +4,27 @@ import { clsx } from 'clsx'
 import type { ParagraphStats as ParagraphStatsType } from '@/lib/types'
 import Badge from '../ui/Badge'
 
+export function StatItem({ value, label, description }: { value: string; label: string; description?: string }) {
+  return (
+    <div className="text-center">
+      <div className="text-4xl md:text-5xl font-bold text-primary-600 mb-2">{value}</div>
+      <div className="text-lg font-semibold text-gray-900 mb-1">{label}</div>
+      {description && <div className="text-sm text-gray-500">{description}</div>}
+    </div>
+  )
+}
+
 export default function ParagraphStats({
   eyebrow,
   title,
   backgroundColor,
   stats,
-}: ParagraphStatsType) {
+  children,
+}: Omit<ParagraphStatsType, '__typename' | 'id' | 'stats'> & {
+  stats?: ParagraphStatsType['stats']
+  /** Canvas passes list items as slotted child components instead of an array. */
+  children?: React.ReactNode
+}) {
   const isLight = backgroundColor === 'light'
 
   return (
@@ -38,21 +53,9 @@ export default function ParagraphStats({
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {(stats ?? []).map((stat) => (
-            <div key={stat.id} className="text-center">
-              <div className="text-4xl md:text-5xl font-bold text-primary-600 mb-2">
-                {stat.value}
-              </div>
-              <div className="text-lg font-semibold text-gray-900 mb-1">
-                {stat.label}
-              </div>
-              {stat.description && (
-                <div className="text-sm text-gray-500">
-                  {stat.description}
-                </div>
-              )}
-            </div>
-          ))}
+          {Array.isArray(stats) && stats.length > 0
+            ? stats.map((stat) => <StatItem key={stat.id} {...stat} />)
+            : children}
         </div>
       </div>
     </section>

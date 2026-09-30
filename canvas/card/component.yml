@@ -1,0 +1,34 @@
+name: Card
+machineName: card
+status: true
+required:
+- title
+props:
+  properties:
+    icon:
+      title: Icon name
+      type: string
+      examples:
+      - Zap
+    title:
+      title: Title
+      type: string
+      examples:
+      - Lightning fast
+    description:
+      title: Description
+      type: string
+      examples:
+      - Pages render on the server and ship minimal JavaScript.
+    linkText:
+      title: Link text
+      type: string
+      examples:
+      - Learn more
+    linkUrl:
+      title: Link
+      type: string
+      examples:
+      - /features
+      format: uri-reference
+slots: {}

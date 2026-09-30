@@ -1,39 +1,59 @@
 export const dynamic = 'force-dynamic'
 
-import { notFound } from 'next/navigation'
+import CanvasComponentTree from '@drupal-canvas/headless-next/CanvasComponentTree'
+import { toNextMetadata } from '@drupal-canvas/headless-next'
+import { notFound, permanentRedirect, redirect } from 'next/navigation'
 import { ParagraphList } from '@/app/components/paragraphs/ParagraphRenderer'
 import { getClient } from '@/lib/drupal-client'
 import { transformSections } from '@/lib/drupal-utils'
+import { loadCanvasPage, isPageRedirect } from '@/lib/canvas'
 import type { NodeLandingPage } from '@/schema/client'
 
 interface PageProps {
   params: Promise<{ slug: string[] }>
 }
 
-export default async function DynamicPage({ params }: PageProps) {
+async function getPath(params: PageProps['params']) {
   const { slug } = await params
-  const path = `/${slug.join('/')}`
+  return `/${slug.map(encodeURIComponent).join('/')}`
+}
 
-  const client = getClient()
+export default async function DynamicPage({ params }: PageProps) {
+  const path = await getPath(params)
 
-  try {
-    const page = await client.getEntryByPath(path) as NodeLandingPage | null
-    if (!page?.sections) notFound()
-
-    const sections = transformSections(page.sections)
-    return <ParagraphList sections={sections} />
-  } catch {
-    notFound()
+  // 1. Drupal Canvas pages (draft-aware inside the Canvas editor).
+  const canvasPage = await loadCanvasPage(path)
+  if (canvasPage) {
+    if (isPageRedirect(canvasPage)) {
+      const { statusCode, url } = canvasPage.redirect
+      if (statusCode === 301 || statusCode === 308) permanentRedirect(url)
+      redirect(url)
+    }
+    return <CanvasComponentTree tree={canvasPage.content} context={canvasPage.context} />
   }
+
+  // 2. Paragraph-based landing pages over GraphQL.
+  let page: NodeLandingPage | null = null
+  try {
+    page = await getClient().getEntryByPath(path) as NodeLandingPage | null
+  } catch {
+    // Page not found
+  }
+  if (!page?.sections) notFound()
+
+  return <ParagraphList sections={transformSections(page.sections)} />
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params
-  const path = `/${slug.join('/')}`
+  const path = await getPath(params)
+
+  const canvasPage = await loadCanvasPage(path)
+  if (canvasPage && !isPageRedirect(canvasPage)) {
+    return toNextMetadata(canvasPage.head)
+  }
 
   try {
-    const client = getClient()
-    const page = await client.getEntryByPath(path)
+    const page = await getClient().getEntryByPath(path)
     return { title: page?.title || 'Page Not Found' }
   } catch {
     return { title: 'Page Not Found' }

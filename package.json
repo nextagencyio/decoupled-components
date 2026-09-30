@@ -1,14 +1,14 @@
 {
   "name": "decoupled-components",
   "version": "0.1.0",
-  "description": "Component showcase starter demonstrating paragraph-style components with Drupal CMS",
+  "description": "Component showcase starter for Decoupled.io: Next.js + headless Drupal with the Drupal Canvas visual editor",
   "private": true,
   "engines": {
-    "node": ">=18.18.0",
+    "node": ">=22.19.0 <23 || >=24.5.0",
     "npm": ">=9.0.0"
   },
   "scripts": {
-    "dev": "WATCHPACK_POLLING=true next dev --webpack",
+    "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT 2>/dev/null)/rootCA.pem\" WATCHPACK_POLLING=true next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -16,4 +16,36 @@
     "setup-content": "npx decoupled-cli@2.14.1 content import --file data/components-content.json",
     "setup-content:preview": "npx decoupled-cli@2.14.1 content import --file data/components-content.json --preview",
     "sync-schema": "npx decoupled-cli@2.14.1 schema sync",
-    "build:cloudflare": "opennextjs-cloudflare build"
+    "build:cloudflare": "opennextjs-cloudflare build",
+    "check:canvas": "node scripts/check-canvas-components.mjs ../decoupled-components-astro/src/canvas"
+  },
+  "dependencies": {
+    "@drupal-canvas/headless": "^0.11.0",
+    "@drupal-canvas/headless-next": "^0.8.0",
+    "@drupal-canvas/headless-react": "^0.5.1",
+    "@tailwindcss/typography": "^0.5.16",
+    "clsx": "^2.1.1",
+    "decoupled-cli": "2.14.1",
+    "decoupled-client": "0.4.2",
+    "dotenv": "^17.2.1",
+    "drupal-canvas": "^0.7.1",
+    "lucide-react": "^0.539.0",
+    "next": "^16.3.6",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.7",
+    "@types/node": "^22",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "autoprefixer": "^10.4.20",
+    "decoupled-cli": "^2.9.9",
+    "eslint": "^9",
+    "eslint-config-next": "^16.3.6",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5",
+    "wrangler": "^4.144.0"
+  }
+}

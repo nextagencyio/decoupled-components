@@ -1,0 +1,25 @@
+name: FAQ Item
+machineName: faq_item
+status: true
+required:
+- question
+props:
+  properties:
+    question:
+      title: Question
+      type: string
+      examples:
+      - How does billing work?
+    answer:
+      title: Answer
+      type: string
+      examples:
+      - <p>You are billed monthly. Cancel any time.</p>
+      contentMediaType: text/html
+      x-formatting-context: block
+    open:
+      title: Open by default
+      type: boolean
+      examples:
+      - false
+slots: {}

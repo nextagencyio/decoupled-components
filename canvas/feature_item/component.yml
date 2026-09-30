@@ -1,0 +1,23 @@
+name: Feature Item
+machineName: feature_item
+status: true
+required:
+- title
+props:
+  properties:
+    icon:
+      title: Icon name
+      type: string
+      examples:
+      - Check
+    title:
+      title: Title
+      type: string
+      examples:
+      - Visual editing
+    description:
+      title: Description
+      type: string
+      examples:
+      - Compose pages from your own components.
+slots: {}

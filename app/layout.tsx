@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { getBrandConfig, brandCssVars, brandFontHrefs } from '@/lib/brand'
+import { CanvasRuntime } from '@drupal-canvas/headless-next/CanvasRuntime'
+import { DraftIndicator } from '@/app/components/DraftIndicator'
 
 export const metadata: Metadata = {
   title: 'LaunchPad - Ship Products Faster',
@@ -28,7 +30,12 @@ export default async function RootLayout({
         ))}
         <style dangerouslySetInnerHTML={{ __html: cssVars }} />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        <CanvasRuntime>
+          <DraftIndicator />
+          {children}
+        </CanvasRuntime>
+      </body>
     </html>
   )
 }

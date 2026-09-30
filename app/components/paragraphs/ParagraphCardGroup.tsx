@@ -14,7 +14,7 @@ function DynamicIcon({ name, className }: { name: string; className?: string }) 
   return <IconComponent className={className} />
 }
 
-function FeatureCard({ card }: { card: CardType }) {
+export function FeatureCard({ card }: { card: Omit<CardType, 'id'> }) {
   return (
     <Card variant="bordered" className="h-full hover:border-primary-200 hover:shadow-md transition-all">
       {card.icon && (
@@ -45,7 +45,11 @@ export default function ParagraphCardGroup({
   subtitle,
   columns = '3',
   cards,
-}: ParagraphCardGroupType) {
+  children,
+}: Omit<ParagraphCardGroupType, '__typename' | 'id'> & {
+  /** Canvas passes list items as slotted child components instead of an array. */
+  children?: React.ReactNode
+}) {
   const gridCols = {
     '2': 'md:grid-cols-2',
     '3': 'md:grid-cols-3',
@@ -81,6 +85,8 @@ export default function ParagraphCardGroup({
               <FeatureCard key={card.id} card={card} />
             ))}
           </div>
+        ) : children ? (
+          <div className={clsx('grid gap-6 md:gap-8', gridCols[columns])}>{children}</div>
         ) : (
           <div className="text-center py-8 text-gray-500">
             <p>No cards configured. Add cards in the Drupal admin.</p>

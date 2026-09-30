@@ -1,0 +1,23 @@
+name: Pricing
+machineName: pricing
+status: true
+props:
+  properties:
+    eyebrow:
+      title: Eyebrow
+      type: string
+      examples:
+      - Features
+    title:
+      title: Title
+      type: string
+      examples:
+      - Simple, transparent pricing
+    subtitle:
+      title: Subtitle
+      type: string
+      examples:
+      - Choose the plan that fits your team.
+slots:
+  tiers:
+    title: Pricing tiers

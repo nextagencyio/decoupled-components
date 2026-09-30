@@ -19,6 +19,20 @@ function DynamicIcon({ name, className }: { name: string; className?: string }) 
   return <IconComponent className={className} />
 }
 
+export function FeatureListItem({ icon, title, description }: { icon?: string; title: string; description?: string }) {
+  return (
+    <li className="flex gap-4">
+      <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+        <DynamicIcon name={icon || 'Check'} className="w-5 h-5 text-primary-600" />
+      </div>
+      <div>
+        <h3 className="font-semibold text-gray-900">{title}</h3>
+        {description && <p className="text-gray-600 text-sm">{description}</p>}
+      </div>
+    </li>
+  )
+}
+
 export default function ParagraphSidebyside({
   eyebrow,
   title,
@@ -28,7 +42,11 @@ export default function ParagraphSidebyside({
   features,
   ctaText,
   ctaUrl,
-}: ParagraphSidebysideType) {
+  children,
+}: Omit<ParagraphSidebysideType, '__typename' | 'id'> & {
+  /** Canvas passes list items as slotted child components instead of an array. */
+  children?: React.ReactNode
+}) {
   const isImageLeft = imagePosition === 'left'
 
   return (
@@ -60,30 +78,15 @@ export default function ParagraphSidebyside({
             )}
 
             {/* Features List */}
-            {Array.isArray(features) && features.length > 0 && (
+            {Array.isArray(features) && features.length > 0 ? (
               <ul className="space-y-4 mb-8">
                 {features.map((feature) => (
-                  <li key={feature.id} className="flex gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                      <DynamicIcon
-                        name={feature.icon || 'Check'}
-                        className="w-5 h-5 text-primary-600"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">
-                        {feature.title}
-                      </h3>
-                      {feature.description && (
-                        <p className="text-gray-600 text-sm">
-                          {feature.description}
-                        </p>
-                      )}
-                    </div>
-                  </li>
+                  <FeatureListItem key={feature.id} {...feature} />
                 ))}
               </ul>
-            )}
+            ) : children ? (
+              <ul className="space-y-4 mb-8">{children}</ul>
+            ) : null}
 
             {/* CTA */}
             {ctaText && ctaUrl && (

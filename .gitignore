@@ -38,3 +38,11 @@ Thumbs.db
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# Drupal Canvas build artifacts
+/.canvas/
+
+# OpenNext / Cloudflare build output
+/.open-next/
+/.wrangler/
+.dev.vars

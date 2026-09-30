@@ -1,0 +1,52 @@
+name: Pricing Tier
+machineName: pricing_tier
+status: true
+required:
+- name
+- price
+props:
+  properties:
+    name:
+      title: Name
+      type: string
+      examples:
+      - Pro
+    price:
+      title: Price
+      type: string
+      examples:
+      - $29
+    billingPeriod:
+      title: Billing period
+      type: string
+      examples:
+      - /month
+    description:
+      title: Description
+      type: string
+      examples:
+      - For growing teams.
+    features:
+      title: Features (one per line or list item)
+      type: string
+      examples:
+      - <ul><li>Unlimited pages</li><li>Priority support</li></ul>
+      contentMediaType: text/html
+      x-formatting-context: block
+    isFeatured:
+      title: Featured
+      type: boolean
+      examples:
+      - false
+    ctaText:
+      title: Button text
+      type: string
+      examples:
+      - Start free trial
+    ctaUrl:
+      title: Button link
+      type: string
+      examples:
+      - /signup
+      format: uri-reference
+slots: {}
